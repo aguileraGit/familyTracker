@@ -14,8 +14,9 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 #Connect to MongoDB Atlas cluster
+DBHOST = app.config['DBHOST']
 DBNAME = app.config['DBNAME']
-hostString = 'mongodb+srv://diegoa:Mz1DlkS34tFiWef7@diegomongocluster.qxed8xo.mongodb.net/' + DBNAME
+hostString = DBHOST + DBNAME
 connect(host=hostString)
 
 
