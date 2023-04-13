@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Push Ups</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form method="POST">
+          {{ form.csrf_token }}
+          <div class="">
+            {{ form.dateAdded.label(class="form-control-label") }}
+            {{ form.dateAdded(class="form-control DateTimeField") }}
+          </div>
+          <div class="">
+            {{ form.count.label(class="form-control-label") }}
+            {{ form.count(class="form-control") }}
+          </div>
+          <button type="submit" class="btn btn-primary">Add Correctly Done Push ups</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

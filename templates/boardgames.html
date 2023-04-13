@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Add new board game</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form method="POST">
+          {{ board_game_add_form.csrf_token }}
+          <div class="">
+            {{ board_game_add_form.game.label(class="form-control-label") }}
+            {{ board_game_add_form.game(class="form-control") }}
+          </div>
+          <div class="">
+            {{ board_game_add_form.dateAdded.label(class="form-control-label") }}
+            {{ board_game_add_form.dateAdded(class="form-control DateTimeField") }}
+          </div>
+          <button type="submit" class="btn btn-primary">Add Game</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <h1>Add new board game Winner!</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form method="POST">
+          {{ board_games_winner_form.csrf_token }}
+          <div class="">
+            {{ board_games_winner_form.dow.label(class="form-control-label") }}
+            {{ board_games_winner_form.dow(class="form-control DateTimeField") }}
+          </div>
+          <div class="">
+            {{ board_games_winner_form.winner.label(class="form-control-label") }}
+            {{ board_games_winner_form.winner(class="form-control") }}
+          </div>
+          <div class="">
+            {{ board_games_winner_form.game.label(class="form-control-label") }}
+            {{ board_games_winner_form.game(class="form-control") }}
+          </div>
+          <div class="">
+            {{ board_games_winner_form.points.label(class="form-control-label") }}
+            {{ board_games_winner_form.points(class="form-control") }}
+          </div>
+          <button type="submit" class="btn btn-primary">Add Winner</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
