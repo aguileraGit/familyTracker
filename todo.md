@@ -18,5 +18,6 @@ TESTING = True
 DEBUG = True
 FLASK_ENV = 'development'
 SECRET_KEY = 'someSuperKey01234'
+DBHOST = 'dbHostName'
 DBNAME = 'familyCounts'
 ```
