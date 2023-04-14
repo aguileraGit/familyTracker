@@ -6,7 +6,8 @@
 - [x] Create custom config file
 - [x] Create link/bookmark on phone
 
-- [ ] Add Read me
+- [ ] Add Family Members
+- [ ] Add Readme
 - [ ] Add more dates (when games were created)
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page

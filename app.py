@@ -6,10 +6,6 @@ from mongoengine import connect
 
 from formClasses import *
 
-#Atlas must be given Github's IP for access to DB
-#Need to move connection string to system variable
-#Publish to Github
-
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
@@ -25,7 +21,7 @@ connect(host=hostString)
 def index():
     return render_template('index.html')
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/addFamilyMember', methods=['GET', 'POST'])
 def addFamilyMember():
     print('Fn addFamilyMember')
     form = family_member_form(request.form)
@@ -48,7 +44,7 @@ def addFamilyMember():
         # Redirect back to the index page
         flash('User created successfully!', 'success')
         return redirect('/')
-    return render_template('index.html', form=form)
+    return render_template('addFamilyMember.html', form=form)
 
 
 #Define route to fly page
