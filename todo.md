@@ -1,12 +1,16 @@
 
 - [x] Push secret key and host (DB Only) to shell variables
 - [x] Be sure to remove from app & add to gitignore
-- [ ] Create new Github repo
-- [ ] Pull in to RPi
-- [ ] Create custom config file
-- [ ] Create link/bookmark on phone
+- [x] Create new Github repo
+- [x] Pull in to RPi
+- [x] Create custom config file
+- [x] Create link/bookmark on phone
 
+- [ ] Add Read me
 - [ ] Add more dates (when games were created)
+- [ ] Move 'Add new board game' to Settings page
+- [ ] Add new family member to Settings page
+- [ ] Analytics!
 
 
 # Configuration
