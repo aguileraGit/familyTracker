@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="text-center">User Profiles</h1>
+    <hr>
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <!-- <img src="{{ user.profile_picture }}" class="card-img-top" alt="Profile Picture"> -->
+                needs image
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.firstName }} {{ user.lastName }}</h5>
+                    <p class="card-text">Email: {{ user.email }}</p>
+                    <!-- <p class="card-text">Date of Birth: {{ user.date_of_birth }}</p> -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -20,6 +20,7 @@ class family_members(DynamicDocument):
     email = EmailField(required=False)
     dob = DateTimeField(required=True)
     admin = BooleanField(required=False)
+    #Sex, middle name
 
 # Define a form for creating new users
 class family_member_form(Form):
@@ -92,4 +93,9 @@ class push_ups(DynamicDocument):
 class push_ups_form(Form):
     dateAdded = DateField('Date completed')
     count = IntegerField('Number of Push ups', [validators.DataRequired()])
+    winner = SelectField()
+    
+    def __init__(self, *args, **kwargs):
+        self.winner.kwargs['choices'] = [user.firstName for user in family_members.objects]
+        Form.__init__(self, *args, **kwargs)
                      

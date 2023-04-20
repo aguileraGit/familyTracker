@@ -3,6 +3,7 @@
 
 from flask import Flask, render_template, request, redirect, flash
 from mongoengine import connect
+import json
 
 from formClasses import *
 
@@ -27,18 +28,11 @@ def addFamilyMember():
     form = family_member_form(request.form)
     if request.method == 'POST' and form.validate():
         print('Request and validated')
-        # Extract name and email from form data
-        fName = form.firstName.data
-        lName = form.lastName.data
-        email = form.email.data
-        dob = form.dob.data
-        admin = form.dob.data
-
-        user = family_members(firstName = fName,
-                             lastName = lName,
-                             email = email,
-                             dob = dob,
-                             admin = admin)
+        user = family_members(firstName = form.firstName.data,
+                             lastName = form.lastName.data,
+                             email = form.email.data,
+                             dob = form.dob.data.isoformat(),
+                             admin = form.dob.data)
         user.save()
 
         # Redirect back to the index page
@@ -54,6 +48,7 @@ def flies():
     form = fly_kills_form(request.form)
     if request.method == 'POST' and form.validate():
         print('Request and validated')
+        print(form.dow.data.isoformat())
         fKills = fly_kills(firstName = form.winner.data,
                            dow = form.dow.data.isoformat(),
                            points = form.points.data)
@@ -120,12 +115,37 @@ def addPushups():
 
     if request.method == 'POST' and form.validate():
         push_ups_done_correctly = push_ups(dateAdded = form.dateAdded.data.isoformat(),
-                                           count = form.count.data)
+                                           count = form.count.data,
+                                           winner = form.winner.data)
         push_ups_done_correctly.save()
         flash('Push ups Added', 'success')
         return redirect('/')
     
     return render_template('addPushUps.html', form=form)
+
+
+#Users Page
+@app.route('/viewAllFamilyMembers', methods=['GET', 'POST'])
+def viewAllFamilyMembers():
+
+    userList = []
+    for user in family_members.objects:
+        userList.append(user)
+
+    return render_template('viewAllFamilyMembers.html', users=userList)
+
+
+@app.context_processor
+def pointsFlysToHTML():
+    return dict(pointsFlys=pointsFlys)
+
+@app.context_processor
+def pointsGamesHTML():
+    return dict(pointsGames=pointsGames)
+
+@app.context_processor
+def pointsChiaSeedsToHTML():
+    return dict(pointsChiaSeeds=pointsChiaSeeds)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
