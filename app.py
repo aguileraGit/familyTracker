@@ -4,6 +4,7 @@
 from flask import Flask, render_template, request, redirect, flash
 from mongoengine import connect
 import json
+import datetime
 
 from formClasses import *
 
@@ -28,11 +29,14 @@ def addFamilyMember():
     form = family_member_form(request.form)
     if request.method == 'POST' and form.validate():
         print('Request and validated')
+
+        print(type(form.dob.data))
+
         user = family_members(firstName = form.firstName.data,
                              lastName = form.lastName.data,
                              email = form.email.data,
                              dob = form.dob.data.isoformat(),
-                             admin = form.dob.data)
+                             admin = form.admin.data)
         user.save()
 
         # Redirect back to the index page

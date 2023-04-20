@@ -17,7 +17,7 @@ pointsChiaSeeds = [(1, 'Found Chia Seed'), (-1, 'Incorrect guess')]
 class family_members(DynamicDocument):
     firstName = StringField(required=True)
     lastName = StringField(required=True)
-    email = EmailField(required=False)
+    email = StringField(required=False)
     dob = DateTimeField(required=True)
     admin = BooleanField(required=False)
     #Sex, middle name
