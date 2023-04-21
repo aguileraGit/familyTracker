@@ -26,5 +26,25 @@ SECRET_KEY = 'someSuperKey01234'
 DBHOST = 'dbHostName'
 DBNAME = 'familyCounts'
 ```
+
+## Service
+```
+[Unit]
+Description=AguileraTracker
+
+[Service]
+ExecStart=flask run -h 192.168.1.105 -p 8585
+User=pi
+WorkingDirectory=/home/pi/Projects/familyTracker/familyTracker
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ## Deploy
-Push to Github. Login to server and Pull.
+Push to Github. Login to server and Pull. Restart service.
+```
+sudo systemctl status aguileraTracker.service
+```
