@@ -13,6 +13,14 @@
             {{ form.firstName(class="form-control") }}
           </div>
           <div class="">
+            {{ form.middleName.label(class="form-control-label") }}
+            {{ form.middleName(class="form-control") }}
+          </div>
+          <div class="">
+            {{ form.nickName.label(class="form-control-label") }}
+            {{ form.nickName(class="form-control") }}
+          </div>
+          <div class="">
             {{ form.lastName.label(class="form-control-label") }}
             {{ form.lastName(class="form-control") }}
           </div>
@@ -25,8 +33,16 @@
             {{ form.dob(class="form-control DateTimeField") }}
           </div>
           <div class="">
+            {{ form.mf.label(class="form-control-label") }}
+            {{ form.mf(class="form-control") }}
+          </div>
+          <div class="">
             {{ form.admin.label(class="form-control-label") }}
             {{ form.admin(class="form-control") }}
+          </div>
+          <div class="">
+            {{ form.pictureFilename.label(class="form-control-label") }}
+            {{ form.pictureFilename(class="form-control") }}
           </div>
           <button type="submit" class="btn btn-primary">Create User</button>
         </form>

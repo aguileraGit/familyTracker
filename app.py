@@ -29,14 +29,15 @@ def addFamilyMember():
     form = family_member_form(request.form)
     if request.method == 'POST' and form.validate():
         print('Request and validated')
-
-        print(type(form.dob.data))
-
         user = family_members(firstName = form.firstName.data,
+                             middleName = form.middleName.data,
                              lastName = form.lastName.data,
+                             nickName = form.nickName.data,
                              email = form.email.data,
                              dob = form.dob.data.isoformat(),
-                             admin = form.admin.data)
+                             mf = form.mf.data,
+                             admin = form.admin.data,
+                             pictureFilename = form.pictureFilename.data)
         user.save()
 
         # Redirect back to the index page
@@ -99,6 +100,14 @@ def chiaseeds():
     print('Fn chiaseeds')
     chiaSeedsForm = chia_seeds_form(request.form)
 
+    '''
+    Need to add some logic here.
+    if chiaSeedsForm.points.data == 0:
+
+    for user in family_members.objects(firstName__contains='z'):
+        print(user.firstName)
+        print(user.lastName)
+    '''
     if request.method == 'POST' and chiaSeedsForm.validate():
         print('Chia seed found')
         chiaWinner = chia_seeds(dow = chiaSeedsForm.dow.data.isoformat(),

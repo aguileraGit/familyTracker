@@ -8,7 +8,7 @@
 
 - [ ] Add Family Members
 - [ ] Add Readme
-- [ ] Add more dates (when games were created)
+- [x] Add more dates (when games were created)
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page
 - [ ] Analytics!
@@ -26,3 +26,5 @@ SECRET_KEY = 'someSuperKey01234'
 DBHOST = 'dbHostName'
 DBNAME = 'familyCounts'
 ```
+## Deploy
+Push to Github. Login to server and Pull.

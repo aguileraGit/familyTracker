@@ -9,26 +9,32 @@ MongoDB Classes must be 'synced' with WTForm Classes. Since MongoDB Forms are dy
 '''
 
 #------------- Point Assignments: [(value, label)] -------------#
-pointsFlys = [(2, 'One Shot - One Kill'), (1, 'Multiple Wacks')]
-pointsGames = [(2, 'First Place'), (1, 'Second Place')]
-pointsChiaSeeds = [(1, 'Found Chia Seed'), (-1, 'Incorrect guess')]
+pointsFlys = [(3, 'One Shot - One Kill'), (1, 'Multiple Wacks')]
+pointsGames = [(3, 'First Place'), (1, 'Second Place')]
+pointsChiaSeeds = [(1, 'Found Chia Seed'), (0, 'Incorrect Guess'), (1, 'Point to Cook')]
 
 #------------- Family Members -------------#
 class family_members(DynamicDocument):
     firstName = StringField(required=True)
+    middelName = StringField(required=True)
     lastName = StringField(required=True)
+    nickName = StringField(required=False)
     email = StringField(required=False)
     dob = DateTimeField(required=True)
     admin = BooleanField(required=False)
-    #Sex, middle name
+    pictureFilename = StringField(required=False)
 
 # Define a form for creating new users
 class family_member_form(Form):
     firstName = StringField('First Name', [validators.DataRequired()])
+    middleName = StringField('Middle Name', [validators.DataRequired()])
     lastName = StringField('Last Name', [validators.DataRequired()])
-    email = StringField('Email', [validators.Email()])
+    nickName = StringField('Nickname', [validators.Optional()])
+    email = StringField('Email', [validators.Email(), validators.Optional()])
     dob = DateField('Date of Birth', [validators.DataRequired()], format='%Y-%m-%d')
-    admin = BooleanField('Admin')
+    admin = BooleanField('Admin', [validators.Optional()])
+    mf = SelectField('Male or Female', choices=[('m', 'Male'), ('f', 'Female')]) 
+    pictureFilename = StringField('Picture filename', [validators.Optional()])
 
 
 #------------- Fly Kills -------------#
