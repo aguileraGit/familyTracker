@@ -9,7 +9,7 @@ MongoDB Classes must be 'synced' with WTForm Classes. Since MongoDB Forms are dy
 '''
 
 #------------- Point Assignments: [(value, label)] -------------#
-pointsFlys = [(3, 'One Shot - One Kill'), (1, 'Multiple Wacks')]
+pointsFlys = [(3, 'One Shot - One Kill'), (1, 'Multiple Whacks')]
 pointsGames = [(3, 'First Place'), (1, 'Second Place')]
 pointsChiaSeeds = [(1, 'Found Chia Seed'), (0, 'Incorrect Guess'), (1, 'Point to Cook')]
 
