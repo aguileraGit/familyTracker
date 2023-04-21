@@ -12,9 +12,10 @@
                 <!-- <img src="{{ user.profile_picture }}" class="card-img-top" alt="Profile Picture"> -->
                 needs image
                 <div class="card-body">
-                    <h5 class="card-title">{{ user.firstName }} {{ user.lastName }}</h5>
-                    <p class="card-text">Email: {{ user.email }}</p>
-                    <!-- <p class="card-text">Date of Birth: {{ user.date_of_birth }}</p> -->
+                    <h5 class="card-title">{{ user.firstName }} {{user.middleName}} {{ user.lastName }}</h5>
+                    <h6><i>"{{user.nickName}}"</i></h6>
+                    <!-- <p class="card-text">Email: {{ user.email }}</p> -->
+                    <p class="card-text">Born: {{ user.dob }}</p>
                 </div>
             </div>
         </div>
