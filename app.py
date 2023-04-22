@@ -5,6 +5,9 @@ from flask import Flask, render_template, request, redirect, flash
 from mongoengine import connect
 import json
 import datetime
+import pandas as pd
+import plotly.graph_objects as go
+import plotly
 
 from formClasses import *
 
@@ -21,7 +24,9 @@ connect(host=hostString)
 # Define a route to render the user form
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    graphJSON = getData()
+
+    return render_template('index.html', graphJSON=graphJSON)
 
 @app.route('/addFamilyMember', methods=['GET', 'POST'])
 def addFamilyMember():
@@ -100,14 +105,6 @@ def chiaseeds():
     print('Fn chiaseeds')
     chiaSeedsForm = chia_seeds_form(request.form)
 
-    '''
-    Need to add some logic here.
-    if chiaSeedsForm.points.data == 0:
-
-    for user in family_members.objects(firstName__contains='z'):
-        print(user.firstName)
-        print(user.lastName)
-    '''
     if request.method == 'POST' and chiaSeedsForm.validate():
         print('Chia seed found')
         chiaWinner = chia_seeds(dow = chiaSeedsForm.dow.data.isoformat(),
@@ -159,6 +156,30 @@ def pointsGamesHTML():
 @app.context_processor
 def pointsChiaSeedsToHTML():
     return dict(pointsChiaSeeds=pointsChiaSeeds)
+
+
+def getData():
+    chiaSeedDF = pd.DataFrame()
+
+    for obj in chia_seeds.objects():
+        item = {'dow': obj.dow,
+                'winner': obj.winner,
+                'points': obj.points}
+        
+        chiaSeedDF = chiaSeedDF.append( item, ignore_index=True )
+
+    print( chiaSeedDF.groupby('winner').sum() )
+
+    fig = go.Figure(data=[go.Table(
+    header=dict(values=list(chiaSeedDF.columns),
+                align='left'),
+
+    cells=dict(values=[chiaSeedDF.points, chiaSeedDF.winner, chiaSeedDF.dow],
+               align='left'))
+    ])
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
