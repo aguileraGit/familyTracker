@@ -159,14 +159,14 @@ def pointsChiaSeedsToHTML():
 
 
 def getData():
-    chiaSeedDF = pd.DataFrame()
-
+    dataToAppend = []
     for obj in chia_seeds.objects():
         item = {'dow': obj.dow,
                 'winner': obj.winner,
                 'points': obj.points}
-        
-        chiaSeedDF = chiaSeedDF.append( item, ignore_index=True )
+        dataToAppend.append(item)
+
+    chiaSeedDF = pd.DataFrame(dataToAppend)
 
     print( chiaSeedDF.groupby('winner').sum() )
 
