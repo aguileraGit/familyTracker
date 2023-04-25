@@ -4,12 +4,13 @@
 - [x] Add more dates (when games were created)
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page
-- [ ] Analytics - Create class to get data
+- [x] Analytics - Create class to get data
 - [ ] Analytics - Move getData to new class and break up (get data & plot)
 - [ ] Analytics - Show more plots
 - [ ] Put a badge next to each person with points
 - [ ] Update form to be nicer
-- [ ] Better understand Bootstrap (See GPT history)
+- [ ] Update profile to be nicer
+- [x] Better understand Bootstrap (See GPT history)
 - [ ] Add users to make public (requires server)
 
 https://pythonbasics.org/flask-login/
@@ -19,7 +20,7 @@ https://blog.heptanalytics.com/flask-plotly-dashboard/
 
 # Analytics
  - Boys vs Girls ---|-----
- - Kids vs Adult --|-----
+ - Kids vs Adult --|----- 
  - Weekly Summary
 
 

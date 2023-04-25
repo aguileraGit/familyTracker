@@ -26,11 +26,12 @@ analytics = pointsAnalytics()
 # Define a route to render the user form
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    #graphJSON = getData()
-
+    #Needs to be moved
     analytics.getCombinePointData()
 
-    return render_template('index.html')
+    leaderboardTable = analytics.generateLeaderBoard()
+
+    return render_template('index.html', leaderboardTable=leaderboardTable)
 
 @app.route('/addFamilyMember', methods=['GET', 'POST'])
 def addFamilyMember():

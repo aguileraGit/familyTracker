@@ -61,17 +61,9 @@ class pointsAnalytics:
 
 
     def getCombinePointData(self):
-        '''
-        
-        '''
         self.getChiaseedData()
-        #print(self.chiaSeedDF)
-
         self.getFlyData()
-        #print(self.flyDataDF)
-
         self.getBoardGameData()
-        #print(self.boardGameDF)
 
         self.combinedPointsDF = pd.concat([self.chiaSeedDF,
                                            self.flyDataDF,
@@ -80,7 +72,18 @@ class pointsAnalytics:
         # Reset index
         self.combinedPointsDF = self.combinedPointsDF.reset_index(drop=True)
 
-        print( self.combinedPointsDF.groupby('winner')['points'].sum().reset_index() )
+
+    def generateLeaderBoard(self):
+         leaderBoard = self.combinedPointsDF.groupby('winner')['points'].sum().reset_index()
+
+        #Need to drop index
+
+         leaderBoardHTML = leaderBoard.to_html(classes=["table table-bordered table-striped table-hover"])
+
+         return leaderBoardHTML
+    
+    
+
 
 
 
