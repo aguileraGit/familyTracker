@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import plotly
 
 from formClasses import *
+from analytics import *
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -20,13 +21,16 @@ DBNAME = app.config['DBNAME']
 hostString = DBHOST + DBNAME
 connect(host=hostString)
 
+analytics = pointsAnalytics()
 
 # Define a route to render the user form
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    graphJSON = getData()
+    #graphJSON = getData()
 
-    return render_template('index.html', graphJSON=graphJSON)
+    analytics.getCombinePointData()
+
+    return render_template('index.html')
 
 @app.route('/addFamilyMember', methods=['GET', 'POST'])
 def addFamilyMember():
@@ -59,7 +63,7 @@ def flies():
     if request.method == 'POST' and form.validate():
         print('Request and validated')
         print(form.dow.data.isoformat())
-        fKills = fly_kills(firstName = form.winner.data,
+        fKills = fly_kills(winner = form.winner.data,
                            dow = form.dow.data.isoformat(),
                            points = form.points.data)
         fKills.save()

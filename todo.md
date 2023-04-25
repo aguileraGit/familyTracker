@@ -1,17 +1,26 @@
 
-- [x] Push secret key and host (DB Only) to shell variables
-- [x] Be sure to remove from app & add to gitignore
-- [x] Create new Github repo
-- [x] Pull in to RPi
-- [x] Create custom config file
-- [x] Create link/bookmark on phone
-
-- [ ] Add Family Members
+- [x] Add Family Members
 - [ ] Add Readme
 - [x] Add more dates (when games were created)
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page
-- [ ] Analytics!
+- [ ] Analytics - Create class to get data
+- [ ] Analytics - Move getData to new class and break up (get data & plot)
+- [ ] Analytics - Show more plots
+- [ ] Put a badge next to each person with points
+- [ ] Update form to be nicer
+- [ ] Better understand Bootstrap (See GPT history)
+- [ ] Add users to make public (requires server)
+
+https://pythonbasics.org/flask-login/
+https://stackoverflow.com/questions/45701726/pandas-dataframe-to-bootstrap-table
+https://plotly.com/python/templates/
+https://blog.heptanalytics.com/flask-plotly-dashboard/
+
+# Analytics
+ - Boys vs Girls ---|-----
+ - Kids vs Adult --|-----
+ - Weekly Summary
 
 
 # Configuration
