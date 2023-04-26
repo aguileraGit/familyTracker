@@ -68,6 +68,8 @@ class pointsAnalytics:
         self.combinedPointsDF = pd.concat([self.chiaSeedDF,
                                            self.flyDataDF,
                                            self.boardGameDF], axis=0)
+        
+        self.combinedPointsDF['points'] = pd.to_numeric(self.combinedPointsDF['points'])
 
         # Reset index
         self.combinedPointsDF = self.combinedPointsDF.reset_index(drop=True)
