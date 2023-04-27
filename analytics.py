@@ -69,6 +69,7 @@ class pointsAnalytics:
                                            self.flyDataDF,
                                            self.boardGameDF], axis=0)
         
+        #Cast points to ints
         self.combinedPointsDF['points'] = pd.to_numeric(self.combinedPointsDF['points'])
 
         # Reset index
