@@ -25,6 +25,7 @@ class pointsAnalytics:
         self.flyDataDF = None
         self.boardGameDF = None
         self.combinedPointsDF = None
+        self.miscDF = None
 
 
     def getChiaseedData(self):
@@ -60,14 +61,27 @@ class pointsAnalytics:
         self.boardGameDF = pd.DataFrame(dataToAppend)
 
 
+    def getMiscData(self):
+        dataToAppend = []
+        for obj in misc_points.objects():
+            item = {'dow': obj.dow,
+                    'winner': obj.winner,
+                    'points': obj.points}
+            dataToAppend.append(item)
+
+        self.miscDF = pd.DataFrame(dataToAppend)
+
+
     def getCombinePointData(self):
         self.getChiaseedData()
         self.getFlyData()
         self.getBoardGameData()
+        self.getMiscData()
 
         self.combinedPointsDF = pd.concat([self.chiaSeedDF,
                                            self.flyDataDF,
-                                           self.boardGameDF], axis=0)
+                                           self.boardGameDF,
+                                           self.miscDF], axis=0)
         
         #Cast points to ints
         self.combinedPointsDF['points'] = pd.to_numeric(self.combinedPointsDF['points'])
