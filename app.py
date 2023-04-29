@@ -138,6 +138,23 @@ def addPushups():
     
     return render_template('addPushUps.html', form=form)
 
+#Misc
+@app.route('/misc', methods=['GET', 'POST'])
+def misc():
+    print('Fn misc')
+    form = miscPoints_form(request.form)
+
+    if request.method == 'POST' and form.validate():
+        miscWinner = miscPoints(dow = form.dow.data.isoformat(),
+                               winner = form.winner.data,
+                               points = form.points.data,
+                               reason = form.reason.data)
+        miscWinner.save()
+        flash('New Winner Added!', 'success')
+        return redirect('/')
+    
+    return render_template('misc.html', form=form)
+
 
 #Users Page
 @app.route('/viewAllFamilyMembers', methods=['GET', 'POST'])

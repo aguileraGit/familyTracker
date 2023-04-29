@@ -105,3 +105,18 @@ class push_ups_form(Form):
         self.winner.kwargs['choices'] = [user.firstName for user in family_members.objects]
         Form.__init__(self, *args, **kwargs)
                      
+
+#------------- Misc -------------#
+class miscPoints(DynamicDocument):
+    dow = DateTimeField(required=True)
+    winner = SelectField(required=True)
+
+class miscPoints_form(Form):
+    dow = DateField('Date', [validators.DataRequired()], format='%Y-%m-%d')
+    winner = SelectField()
+    points = IntegerField('Number of Points', [validators.DataRequired()])
+    reason = StringField('Reason for Points', [validators.Optional()])
+
+    def __init__(self, *args, **kwargs):
+        self.winner.kwargs['choices'] = [user.firstName for user in family_members.objects]
+        Form.__init__(self, *args, **kwargs)

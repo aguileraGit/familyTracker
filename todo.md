@@ -12,9 +12,10 @@
 - [ ] Update form to be nicer
 - [ ] Update profile to be nicer
 - [ ] Be able to update User profile (add ID, Brother/Sister/Mom/Dad)
-- [ ] Cast points column as int
+- [x] Cast points column as int
 - [x] Better understand Bootstrap (See GPT history)
 - [ ] Add users to make public (requires server)
+- [ ] Add Random Point
 
 https://pythonbasics.org/flask-login/
 https://stackoverflow.com/questions/45701726/pandas-dataframe-to-bootstrap-table
