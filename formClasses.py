@@ -107,11 +107,11 @@ class push_ups_form(Form):
                      
 
 #------------- Misc -------------#
-class miscPoints(DynamicDocument):
+class misc_points(DynamicDocument):
     dow = DateTimeField(required=True)
     winner = SelectField(required=True)
 
-class miscPoints_form(Form):
+class misc_points_form(Form):
     dow = DateField('Date', [validators.DataRequired()], format='%Y-%m-%d')
     winner = SelectField()
     points = IntegerField('Number of Points', [validators.DataRequired()])

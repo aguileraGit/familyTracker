@@ -142,10 +142,10 @@ def addPushups():
 @app.route('/misc', methods=['GET', 'POST'])
 def misc():
     print('Fn misc')
-    form = miscPoints_form(request.form)
+    form = misc_points_form(request.form)
 
     if request.method == 'POST' and form.validate():
-        miscWinner = miscPoints(dow = form.dow.data.isoformat(),
+        miscWinner = misc_points(dow = form.dow.data.isoformat(),
                                winner = form.winner.data,
                                points = form.points.data,
                                reason = form.reason.data)
