@@ -99,9 +99,64 @@ class pointsAnalytics:
 
          return leaderBoardHTML
     
-    
+    def quickPointsTotal(self):
+        '''
+        Quickly retrieves points for users using mongodb-like syntax.
+        This does not rely on pulling down data to DF and parsing.
+        Returns dict of names and points.
+        I don't actually know how to do this. - GPT wrote this.
+        https://www.tutorialspoint.com/mongoengine/mongoengine_querying_database.htm
+        '''
+        
+        # Aggregate the points by user using the "group" method
+        pipeline = [
+            {"$group": {"_id": "$winner", "total_points": {"$sum": {"$toInt": "$points"}}}}
+        ]
+
+        # Execute the aggregation pipeline for the "misc_points" collection
+        misc_points_results = misc_points.objects.aggregate(*pipeline)
+
+        # Execute the aggregation pipeline for the "fly_kills" collection
+        fly_kills_results = fly_kills.objects.aggregate(*pipeline)
+
+        board_game_results = board_games_winner.objects.aggregate(*pipeline)
+
+        chia_seeds_results = chia_seeds.objects.aggregate(*pipeline)
+
+        # Merge the results of both collections by user
+        merged_results = {}
+
+        for result in misc_points_results:
+            merged_results[result['_id']] = result['total_points']
+
+        for result in fly_kills_results:
+            user = result['_id']
+            if user in merged_results:
+                merged_results[user] += result['total_points']
+            else:
+                merged_results[user] = result['total_points']
+
+        for result in board_game_results:
+            user = result['_id']
+            if user in merged_results:
+                merged_results[user] += result['total_points']
+            else:
+                merged_results[user] = result['total_points']
+
+        for result in chia_seeds_results:
+            user = result['_id']
+            if user in merged_results:
+                merged_results[user] += result['total_points']
+            else:
+                merged_results[user] = result['total_points']
 
 
-
-
+        # Print the results
+        for user, total_points in merged_results.items():
+            print(f"user: {user}, totalPoints: {total_points}")
+        
+        print(merged_results)
+        print(type(merged_results))
+        
+        return merged_results
 

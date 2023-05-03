@@ -8,14 +8,15 @@
 - [x] Analytics - Create class to get data
 - [ ] Analytics - Move getData to new class and break up (get data & plot)
 - [ ] Analytics - Show more plots
-- [ ] Put a badge next to each person with points
+- [ ] Put a badge next to each person with points <- Working on this
 - [ ] Update form to be nicer
 - [ ] Update profile to be nicer
 - [ ] Be able to update User profile (add ID, Brother/Sister/Mom/Dad)
 - [x] Cast points column as int
 - [x] Better understand Bootstrap (See GPT history)
 - [ ] Add users to make public (requires server)
-- [ ] Add Random Point
+- [x] Add Random Point
+- [ ] Analytics sort leader table
 
 https://pythonbasics.org/flask-login/
 https://stackoverflow.com/questions/45701726/pandas-dataframe-to-bootstrap-table

@@ -179,6 +179,9 @@ def pointsGamesHTML():
 def pointsChiaSeedsToHTML():
     return dict(pointsChiaSeeds=pointsChiaSeeds)
 
+@app.context_processor
+def pointTotalsToHTML():
+    return dict(results = analytics.quickPointsTotal())
 
 def getData():
     dataToAppend = []
