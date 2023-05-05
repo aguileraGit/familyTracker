@@ -8,7 +8,7 @@
 - [x] Analytics - Create class to get data
 - [ ] Analytics - Move getData to new class and break up (get data & plot)
 - [ ] Analytics - Show more plots
-- [ ] Put a badge next to each person with points <- Working on this
+- [x] Put a badge next to each person with points
 - [ ] Update form to be nicer
 - [ ] Update profile to be nicer
 - [ ] Be able to update User profile (add ID, Brother/Sister/Mom/Dad)
@@ -17,8 +17,7 @@
 - [ ] Add users to make public (requires server)
 - [x] Add Random Point
 - [ ] Analytics sort leader table
-
-- [ ] Add default 'point' value in viewAllFamilyMembers. See [here](https://stackoverflow.com/questions/19614027/jinja2-template-variable-if-none-object-set-a-default-value).
+- [x] Add default 'point' value in viewAllFamilyMembers. See [here](https://stackoverflow.com/questions/19614027/jinja2-template-variable-if-none-object-set-a-default-value).
 
 https://pythonbasics.org/flask-login/
 https://stackoverflow.com/questions/45701726/pandas-dataframe-to-bootstrap-table

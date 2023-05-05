@@ -152,11 +152,11 @@ class pointsAnalytics:
 
 
         # Print the results
-        for user, total_points in merged_results.items():
-            print(f"user: {user}, totalPoints: {total_points}")
+        #for user, total_points in merged_results.items():
+            #print(f"user: {user}, totalPoints: {total_points}")
         
-        print(merged_results)
-        print(type(merged_results))
+        #print(merged_results)
+        #print(type(merged_results))
         
         return merged_results
 

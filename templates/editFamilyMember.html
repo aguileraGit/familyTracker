@@ -9,9 +9,8 @@
         <form method="POST">
           {{ form.csrf_token }}
           <div class="">
-            <h6 class="badge bg-danger">Warning first name can not be changed.</h6>
             {{ form.firstName.label(class="form-control-label") }}
-            {{ form.firstName(class="form-control") }}
+            {{ form.firstName(class="form-control", readonly="readonly") }}
           </div>
           <div class="">
             {{ form.middleName.label(class="form-control-label") }}
@@ -49,7 +48,7 @@
             {{ form.pictureFilename.label(class="form-control-label") }}
             {{ form.pictureFilename(class="form-control") }}
           </div>
-          <button type="submit" class="btn btn-primary">Create User</button>
+          <button type="submit" class="btn btn-primary">Update User</button>
         </form>
       </div>
     </div>

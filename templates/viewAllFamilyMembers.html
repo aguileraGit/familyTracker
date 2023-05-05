@@ -9,22 +9,24 @@
         {% for user in users %}
         <div class="col">
             <div class="card border-dark mb-3" style="max-width: 400px;">
+                <div class="row text-end text-secondary"><a href="editFamilyMember?id={{user.id}}"><i class="bi bi-person-fill-gear"></i></a></div>
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
+                        <img src="..." class="img-fluid rounded-start" alt="Picture">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title">{{ user.firstName }} {{user.middleName}} {{ user.lastName }}</h5>
-                            <h6 class="card-subtitle mb-2 text-body-secondary"><i>"{{user.nickName}}"</i></h6>
-                            <p class="card-text"><i class="bi bi-gift"></i> {{ user.dob }}</p>
-                            <p class="card-text"><i class="bi bi-diagram-3"></i> Relationship</p>
-                            <p class="card-text"><i class="bi bi-envelope-at"></i> Email</p>
+                            <h6 class="card-subtitle mb-2 text-body-secondary"><i>"{{user.nickName or ''}}"</i></h6>
+                            <div class="card-text"><i class="bi bi-gift"></i> {{ user.dob or ''}}</div>
+                            <div class="card-text"><i class="bi bi-diagram-3"></i> {{ user.familyRelationship or ''}}</div>
+                            <div class="card-text"><i class="bi bi-envelope-at"></i> {{ user.email or '' }}</div>
+                            <div class="card-text"><i class="bi bi-envelope-at"></i> ID: {{user.id}} </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-body-secondary">
-                    <span class="badge bg-dark">{{results[ user.firstName ]}}</span> Points
+                    <span class="badge bg-dark">{{ results[ user.firstName ] or '0' }}</span> Points
                 </div>
             </div>
         </div>

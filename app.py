@@ -8,6 +8,7 @@ import datetime
 import pandas as pd
 import plotly.graph_objects as go
 import plotly
+import datetime
 
 from formClasses import *
 from analytics import *
@@ -32,28 +33,6 @@ def index():
     leaderboardTable = analytics.generateLeaderBoard()
 
     return render_template('index.html', leaderboardTable=leaderboardTable)
-
-@app.route('/addFamilyMember', methods=['GET', 'POST'])
-def addFamilyMember():
-    print('Fn addFamilyMember')
-    form = family_member_form(request.form)
-    if request.method == 'POST' and form.validate():
-        print('Request and validated')
-        user = family_members(firstName = form.firstName.data,
-                             middleName = form.middleName.data,
-                             lastName = form.lastName.data,
-                             nickName = form.nickName.data,
-                             email = form.email.data,
-                             dob = form.dob.data.isoformat(),
-                             mf = form.mf.data,
-                             admin = form.admin.data,
-                             pictureFilename = form.pictureFilename.data)
-        user.save()
-
-        # Redirect back to the index page
-        flash('User created successfully!', 'success')
-        return redirect('/')
-    return render_template('addFamilyMember.html', form=form)
 
 
 #Define route to fly page
@@ -156,6 +135,30 @@ def misc():
     return render_template('misc.html', form=form)
 
 
+@app.route('/addFamilyMember', methods=['GET', 'POST'])
+def addFamilyMember():
+    print('Fn addFamilyMember')
+    form = family_member_form(request.form)
+    if request.method == 'POST' and form.validate():
+        print('Request and validated')
+        user = family_members(firstName = form.firstName.data,
+                             middleName = form.middleName.data,
+                             lastName = form.lastName.data,
+                             nickName = form.nickName.data,
+                             email = form.email.data,
+                             dob = form.dob.data.isoformat(),
+                             mf = form.mf.data,
+                             admin = form.admin.data,
+                             pictureFilename = form.pictureFilename.data,
+                             familyRelationship = form.familyRelationship.data)
+        user.save()
+
+        # Redirect back to the index page
+        flash('User created successfully!', 'success')
+        return redirect('/')
+    return render_template('addFamilyMember.html', form=form)
+
+
 #Users Page
 @app.route('/viewAllFamilyMembers', methods=['GET', 'POST'])
 def viewAllFamilyMembers():
@@ -167,8 +170,70 @@ def viewAllFamilyMembers():
     return render_template('viewAllFamilyMembers.html', users=userList)
 
 
+#Edit User (Must provide ?id=...) 
+@app.route('/editFamilyMember', methods=['GET', 'POST'])
+def editFamilyMember():
+
+    if request.method == 'GET':
+        userID = request.args.get('id')
+
+        #Verify ID to edit was provided
+        if userID == None:
+            flash('No user ID provided', 'danger')
+            return redirect('/')
+
+        #Get user data from DB by ID
+        userInfoFromDB = family_members.objects.get(id=userID)
+
+        #Create form to push to HTML
+        form = family_member_form()
+
+        #Set HTML form to have defaults from the DB
+        form.firstName.default = userInfoFromDB.firstName
+        form.middleName.default = userInfoFromDB.middleName
+        form.lastName.default = userInfoFromDB.lastName
+        form.nickName.default = userInfoFromDB.nickName
+        form.email.default = userInfoFromDB.email
+        form.dob.default = datetime.datetime.strptime(userInfoFromDB.dob , '%Y-%m-%d')
+        form.admin.default = userInfoFromDB.admin
+        form.mf.default = userInfoFromDB.mf
+        form.pictureFilename.default = userInfoFromDB.pictureFilename
+        form.familyRelationship.default = userInfoFromDB.familyRelationship
+
+        #Update form so defaults take affect
+        form.process()
+
+        return render_template('editFamilyMember.html', form=form)
+
+    #On request: process form. See addFamilyMember
+    if request.method == 'POST':
+        form = family_member_form(request.form)
+
+        if form.validate():
+            family_members.objects(firstName=form.firstName.data).update(middleName=form.middleName.data,
+                                                                         lastName=form.lastName.data,
+                                                                         nickName=form.nickName.data,
+                                                                         email=form.email.data,
+                                                                         dob=form.dob.data.isoformat(),
+                                                                         admin=form.admin.data,
+                                                                         mf=form.mf.data,
+                                                                         pictureFilename=form.pictureFilename.data,
+                                                                         familyRelationship=form.familyRelationship.data)
+
+            flash('User updated', 'success')
+            return redirect('viewAllFamilyMembers')
+
+        else:
+            flash('Error validating from', 'danger')
+            return redirect('viewAllFamilyMembers')
+        
+
 @app.context_processor
 def pointsFlysToHTML():
+    '''
+    Pulled from formClasses.py
+    Provides a access to how points are gained via HTML
+    '''
     return dict(pointsFlys=pointsFlys)
 
 @app.context_processor

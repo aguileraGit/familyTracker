@@ -16,13 +16,15 @@ pointsChiaSeeds = [(1, 'Found Chia Seed'), (0, 'Incorrect Guess'), (1, 'Point to
 #------------- Family Members -------------#
 class family_members(DynamicDocument):
     firstName = StringField(required=True)
-    middelName = StringField(required=True)
+    middleName = StringField(required=True)
     lastName = StringField(required=True)
     nickName = StringField(required=False)
     email = StringField(required=False)
     dob = DateTimeField(required=True)
     admin = BooleanField(required=False)
+    mf = StringField(required=True)
     pictureFilename = StringField(required=False)
+    familyRelationship = StringField(required=True)
 
 # Define a form for creating new users
 class family_member_form(Form):
@@ -33,8 +35,11 @@ class family_member_form(Form):
     email = StringField('Email', [validators.Email(), validators.Optional()])
     dob = DateField('Date of Birth', [validators.DataRequired()], format='%Y-%m-%d')
     admin = BooleanField('Admin', [validators.Optional()])
-    mf = SelectField('Male or Female', choices=[('m', 'Male'), ('f', 'Female')]) 
+    mf = SelectField('Sex',  [validators.DataRequired()], choices=[('m', 'Male'), ('f', 'Female')]) 
     pictureFilename = StringField('Picture filename', [validators.Optional()])
+    familyRelationship = SelectField('Family Relationship', [validators.DataRequired()], choices=[
+        ('mother', 'Mother'), ('father', 'Father'), ('sister', 'Sister'), ('brother', 'Brother')])
+
 
 
 #------------- Fly Kills -------------#
