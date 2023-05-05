@@ -9,8 +9,8 @@
         <form method="POST">
           {{ form.csrf_token }}
           <div class="">
-            <h6 class="badge bg-danger">Warning first name can not be changed.</h6>
             {{ form.firstName.label(class="form-control-label") }}
+            <h6 class="badge bg-danger">Warning first name can not be changed.</h6>
             {{ form.firstName(class="form-control") }}
           </div>
           <div class="">

@@ -181,7 +181,8 @@ def editFamilyMember():
         if userID == None:
             flash('No user ID provided', 'danger')
             return redirect('/')
-
+        
+    
         #Get user data from DB by ID
         userInfoFromDB = family_members.objects.get(id=userID)
 
