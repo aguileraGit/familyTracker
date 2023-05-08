@@ -1,23 +1,19 @@
+# More to do
 
+- [ ] Update `editFamilyMember` to get user by ID
+- [ ] Analytics sort leader table
+- [ ] Analytics - Show more plots
+- [ ] Need to drop index in `analytics.generateLeaderBoard`
+- [ ] Update `analytics.quickPointsTotal` to use `self.pointCollectionList`
 
-- [x] Add Family Members
-- [ ] Add Readme
-- [x] Add more dates (when games were created)
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page
-- [x] Analytics - Create class to get data
-- [ ] Analytics - Move getData to new class and break up (get data & plot)
-- [ ] Analytics - Show more plots
-- [x] Put a badge next to each person with points
+
 - [ ] Update form to be nicer
 - [ ] Update profile to be nicer
-- [ ] Be able to update User profile (add ID, Brother/Sister/Mom/Dad)
-- [x] Cast points column as int
-- [x] Better understand Bootstrap (See GPT history)
+
 - [ ] Add users to make public (requires server)
-- [x] Add Random Point
-- [ ] Analytics sort leader table
-- [x] Add default 'point' value in viewAllFamilyMembers. See [here](https://stackoverflow.com/questions/19614027/jinja2-template-variable-if-none-object-set-a-default-value).
+
 
 https://pythonbasics.org/flask-login/
 https://stackoverflow.com/questions/45701726/pandas-dataframe-to-bootstrap-table
@@ -39,10 +35,6 @@ Generic Fn that filters data by date and returns a DF. Each item below can pull 
  - Flys killed
 Note: CombinedDataDF should probably include other columns. I'm thinking boardGameDF should include game played.
 
-# User Profile work
-Shall pull all fields (including new fields) from the DB and display them in the form. Where the default values are the 
-values from the DB. User can overwrite the values from the website. Disable certain values (DB ID). Add button with
-some jQuery/AJAX to associate DB ID with form or create a new page that pulls data from DB per button click.
 
 # Configuration
 Flask App pulls configuration from config.py. This file is not pushed to Github.

@@ -27,6 +27,8 @@ class pointsAnalytics:
         self.combinedPointsDF = None
         self.miscDF = None
 
+        self.pointCollectionList = [fly_kills, board_games_winner, chia_seeds, misc_points]
+
 
     def getChiaseedData(self):
         dataToAppend = []
@@ -160,3 +162,137 @@ class pointsAnalytics:
         
         return merged_results
 
+    def collectAllData(self):
+        data = []
+
+        for collection in self.pointCollectionList:
+            for item in collection.objects:
+                data.append(item.to_mongo())
+        
+        df = pd.DataFrame(data)
+
+        print(df)
+
+    def createDivergencePlots(self):
+
+        # Get users in DF - membersDF
+        #List of dict. Each dict contains the information to query the Users
+        # DB and store the values to plot later one
+        divergenceList = []
+
+        #Parents vs Kids
+        divergenceList.append({'category': 'Parents vs Kids',
+            'qType': 'familyRelationship',
+            'pQuery': ['brother', 'sister'],
+            'pNames': None,
+            'pValue': None,
+            'nQuery': ['mother', 'father'],
+            'nNames': None,
+            'nValue': None},
+        )
+        
+        #Brothers vs Sister
+        divergenceList.append({'category': 'Brothers vs Sisters',
+            'qType': 'familyRelationship',
+            'pQuery': ['brother'],
+            'pNames': None,
+            'pValue': None,
+            'nQuery': ['sister'],
+            'nNames': None,
+            'nValue': None},
+        )
+
+        #Mom vs Dad
+        divergenceList.append({'category': 'Mom vs Dad',
+            'qType': 'familyRelationship',
+            'pQuery': ['mother'],
+            'pNames': None,
+            'pValue': None,
+            'nQuery': ['father'],
+            'nNames': None,
+            'nValue': None},
+        )
+
+        #Query DB and get back 
+        for query in divergenceList:
+            if query['qType'] == 'familyRelationship':
+                #Preform Query
+                temp = family_members.objects(familyRelationship__in=query['pQuery'])
+                query['pNames'] = temp.values_list('firstName')
+                
+                temp = family_members.objects(familyRelationship__in=query['nQuery'])
+                query['nNames'] = temp.values_list('firstName')
+
+            elif query['qType'] == 'sex':
+                temp = family_members.objects(mf__in=query['pQuery'].values_list('firstName'))
+                query['pNames'] = temp.values_list('firstName')
+
+                temp = family_members.objects(mf__in=query['nQuery'].values_list('firstName'))
+                query['nNames'] = temp.values_list('firstName')
+
+            elif query['qType'] == 'dob':
+                pass
+            else:
+                pass
+                #qType could be a query
+            
+        #Use list of names to query all pointCollections and sum points
+        for query in divergenceList:
+            query['pValue'] = 0
+            for collection in self.pointCollectionList:
+                temp = collection.objects(winner__in=query['pNames'])
+                for doc in temp:
+                    query['pValue'] += int(doc.points)
+
+            query['nValue'] = 0
+            for collection in self.pointCollectionList:
+                temp = collection.objects(winner__in=query['nNames'])
+                for doc in temp:
+                    query['nValue'] += int(doc.points)
+
+        print(divergenceList)
+
+        # Calculate the total for each category
+        for item in divergenceList:
+            item['nValue'] = item['nValue'] * -1
+            item['Total'] = item['pValue'] + abs(item['nValue'])
+
+        # Create the figure
+        fig = go.Figure()
+
+        # Add the positive bars
+        fig.add_trace(go.Bar(
+            x=[item['pValue'] for item in divergenceList],
+            y=[item['category'] for item in divergenceList],
+            name='Positive',
+            orientation='h',
+            marker=dict(
+                color='green'
+            )
+        ))
+
+        # Add the negative bars
+        fig.add_trace(go.Bar(
+            x=[item['nValue'] for item in divergenceList],
+            y=[item['category'] for item in divergenceList],
+            name='Negative',
+            orientation='h',
+            marker=dict(
+                color='red'
+            )
+        ))
+
+        # Set the layout
+        fig.update_layout(
+            title='Diverging Stacked Bar Chart',
+            barmode='relative',
+            bargap=0.1,
+            xaxis=dict(
+                title='Value',
+                #range=[-150, 150],
+                #tickvals=[-150, -100, -50, 0, 50, 100, 150],
+                #ticktext=['-150', '-100', '-50', '0', '50', '100', '150']
+            )
+        )
+
+        return fig

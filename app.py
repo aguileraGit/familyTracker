@@ -32,7 +32,13 @@ def index():
 
     leaderboardTable = analytics.generateLeaderBoard()
 
-    return render_template('index.html', leaderboardTable=leaderboardTable)
+    #analytics.collectAllData()
+
+    fig = analytics.createDivergencePlots()
+    print(fig)
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('index.html', leaderboardTable=leaderboardTable, graphJSON=graphJSON)
 
 
 #Define route to fly page
@@ -203,12 +209,16 @@ def editFamilyMember():
 
         #Update form so defaults take affect
         form.process()
-
+    
         return render_template('editFamilyMember.html', form=form)
 
     #On request: process form. See addFamilyMember
     if request.method == 'POST':
         form = family_member_form(request.form)
+        print('ID')
+        print(request.args.get('id'))
+
+        #Need to update this so it looks for ID and not firstname.
 
         if form.validate():
             family_members.objects(firstName=form.firstName.data).update(middleName=form.middleName.data,
