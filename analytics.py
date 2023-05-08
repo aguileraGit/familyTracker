@@ -5,13 +5,11 @@ from formClasses import *
 
 
 '''
-Maybe use a decorator to refresh data for functions that need it. Only refreshes
- if data is stale (empty or older than 4 hours). Need function to refresh now.
+Thought process has changed on this. Originally, the process was to get allll data and
+process it using Pandas. It has moved to using mongoengine syntax to query. For the most
+part, each function pulls data and generates HTML to display it.
 
-Analytics page needs to be created. Page will not generate plots. It was use jQuery
- to call and render plots. I don't know how to do this.
-
- See: https://blog.heptanalytics.com/flask-plotly-dashboard/
+self.pointCollectionList maintains the collections that actually contain points.
 '''
 
 class pointsAnalytics:
@@ -264,21 +262,14 @@ class pointsAnalytics:
         fig.add_trace(go.Bar(
             x=[item['pValue'] for item in divergenceList],
             y=[item['category'] for item in divergenceList],
-            name='Positive',
             orientation='h',
-            marker=dict(
-                color='green'
-            )
         ))
 
         # Add the negative bars
         fig.add_trace(go.Bar(
             x=[item['nValue'] for item in divergenceList],
             y=[item['category'] for item in divergenceList],
-            name='Negative',
             orientation='h',
-            marker=dict(
-                color='red'
             )
         ))
 

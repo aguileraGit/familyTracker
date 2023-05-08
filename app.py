@@ -27,13 +27,13 @@ analytics = pointsAnalytics()
 # Define a route to render the user form
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    #Needs to be moved
+    #Needs to be removed
     analytics.getCombinePointData()
 
+    #Needs to be updated to remove Pandas
     leaderboardTable = analytics.generateLeaderBoard()
 
-    #analytics.collectAllData()
-
+    #Generate divergence plots
     fig = analytics.createDivergencePlots()
     print(fig)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
@@ -248,38 +248,24 @@ def pointsFlysToHTML():
     return dict(pointsFlys=pointsFlys)
 
 @app.context_processor
-def pointsGamesHTML():
+def pointsGamesToHTML():
+    '''
+    Pulled from formClasses.py
+    Provides a access to how points are gained via HTML
+    '''
     return dict(pointsGames=pointsGames)
 
 @app.context_processor
 def pointsChiaSeedsToHTML():
+    '''
+    Pulled from formClasses.py
+    Provides a access to how points are gained via HTML
+    '''
     return dict(pointsChiaSeeds=pointsChiaSeeds)
 
 @app.context_processor
 def pointTotalsToHTML():
     return dict(results = analytics.quickPointsTotal())
-
-def getData():
-    dataToAppend = []
-    for obj in chia_seeds.objects():
-        item = {'dow': obj.dow,
-                'winner': obj.winner,
-                'points': obj.points}
-        dataToAppend.append(item)
-
-    chiaSeedDF = pd.DataFrame(dataToAppend)
-
-    print( chiaSeedDF.groupby('winner').sum() )
-
-    fig = go.Figure(data=[go.Table(
-    header=dict(values=list(chiaSeedDF.columns),
-                align='left'),
-
-    cells=dict(values=[chiaSeedDF.points, chiaSeedDF.winner, chiaSeedDF.dow],
-               align='left'))
-    ])
-    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON
 
 
 if __name__ == '__main__':

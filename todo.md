@@ -1,16 +1,23 @@
 # More to do
 
 - [ ] Update `editFamilyMember` to get user by ID
+
+- [ ] Get rid of `analytics.getCombinePointData()` and use mongoengine syntax
+ - [ ] `analytics.generateLeaderBoard` also needs to be reworked. 
+ - [ ] Lots of the analytics code will go away
+ - [ ] See GPT Chat
+ 
 - [ ] Analytics sort leader table
-- [ ] Analytics - Show more plots
+- [x] Analytics - Show more plots
 - [ ] Need to drop index in `analytics.generateLeaderBoard`
 - [ ] Update `analytics.quickPointsTotal` to use `self.pointCollectionList`
 
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page
 
-- [ ] Update form to be nicer
-- [ ] Update profile to be nicer
+- [ ] Update form to be nicer (see `flies.html`)
+
+- [ ] Update profile to be nicer (add photos)
 
 - [ ] Add users to make public (requires server)
 
@@ -20,12 +27,6 @@ https://stackoverflow.com/questions/45701726/pandas-dataframe-to-bootstrap-table
 https://plotly.com/python/templates/
 https://blog.heptanalytics.com/flask-plotly-dashboard/
 
-# Analytics
-### Horizontal relative bars (Diverging horizontal stacked bar)
- - Boys vs Girls ---|-----
- - Kids vs Adult --|----- 
- - Brothers vs Sister ----|----
- - Mom vs Dad ----|-----
 
 ### Weekly Summary
 Generic Fn that filters data by date and returns a DF. Each item below can pull from combinedDataDF or specificDF. 
