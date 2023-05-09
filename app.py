@@ -27,15 +27,13 @@ analytics = pointsAnalytics()
 # Define a route to render the user form
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    #Needs to be removed
-    analytics.getCombinePointData()
-
-    #Needs to be updated to remove Pandas
+    
+    #Create leader board table
     leaderboardTable = analytics.generateLeaderBoard()
 
     #Generate divergence plots
     fig = analytics.createDivergencePlots()
-    print(fig)
+    
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     return render_template('index.html', leaderboardTable=leaderboardTable, graphJSON=graphJSON)
@@ -221,15 +219,16 @@ def editFamilyMember():
         #Need to update this so it looks for ID and not firstname.
 
         if form.validate():
-            family_members.objects(firstName=form.firstName.data).update(middleName=form.middleName.data,
-                                                                         lastName=form.lastName.data,
-                                                                         nickName=form.nickName.data,
-                                                                         email=form.email.data,
-                                                                         dob=form.dob.data.isoformat(),
-                                                                         admin=form.admin.data,
-                                                                         mf=form.mf.data,
-                                                                         pictureFilename=form.pictureFilename.data,
-                                                                         familyRelationship=form.familyRelationship.data)
+            userID = request.args.get('id')
+            family_members.objects(id=userID).update(middleName=form.middleName.data,
+                                                    lastName=form.lastName.data,
+                                                    nickName=form.nickName.data,
+                                                    email=form.email.data,
+                                                    dob=form.dob.data.isoformat(),
+                                                    admin=form.admin.data,
+                                                    mf=form.mf.data,
+                                                    pictureFilename=form.pictureFilename.data,
+                                                    familyRelationship=form.familyRelationship.data)
 
             flash('User updated', 'success')
             return redirect('viewAllFamilyMembers')
@@ -238,6 +237,7 @@ def editFamilyMember():
             flash('Error validating from', 'danger')
             return redirect('viewAllFamilyMembers')
         
+
 
 @app.context_processor
 def pointsFlysToHTML():
@@ -265,7 +265,7 @@ def pointsChiaSeedsToHTML():
 
 @app.context_processor
 def pointTotalsToHTML():
-    return dict(results = analytics.quickPointsTotal())
+    return dict(results = analytics.getPointsbyUser())
 
 
 if __name__ == '__main__':

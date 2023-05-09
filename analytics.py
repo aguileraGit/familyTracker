@@ -3,7 +3,6 @@ import plotly.graph_objects as go
 import plotly
 from formClasses import *
 
-
 '''
 Thought process has changed on this. Originally, the process was to get allll data and
 process it using Pandas. It has moved to using mongoengine syntax to query. For the most
@@ -15,97 +14,48 @@ self.pointCollectionList maintains the collections that actually contain points.
 class pointsAnalytics:
 
     def __init__(self):
-        '''
-        To be called app.py runs. Functions in app.py then call Fns in class to avoid
-        extra calls to the DB. 
-        '''
-        self.chiaseedDF = None
-        self.flyDataDF = None
-        self.boardGameDF = None
-        self.combinedPointsDF = None
-        self.miscDF = None
-
         self.pointCollectionList = [fly_kills, board_games_winner, chia_seeds, misc_points]
 
 
-    def getChiaseedData(self):
-        dataToAppend = []
-        for obj in chia_seeds.objects():
-            item = {'dow': obj.dow,
-                    'winner': obj.winner,
-                    'points': obj.points}
-            dataToAppend.append(item)
-
-        self.chiaSeedDF = pd.DataFrame(dataToAppend)
-
-
-    def getFlyData(self):
-        dataToAppend = []
-        for obj in fly_kills.objects():
-            item = {'dow': obj.dow,
-                    'winner': obj.winner,
-                    'points': obj.points}
-            dataToAppend.append(item)
-
-        self.flyDataDF = pd.DataFrame(dataToAppend)
-
-
-    def getBoardGameData(self):
-        dataToAppend = []
-        for obj in board_games_winner.objects():
-            item = {'dow': obj.dow,
-                    'winner': obj.winner,
-                    'points': obj.points}
-            dataToAppend.append(item)
-
-        self.boardGameDF = pd.DataFrame(dataToAppend)
-
-
-    def getMiscData(self):
-        dataToAppend = []
-        for obj in misc_points.objects():
-            item = {'dow': obj.dow,
-                    'winner': obj.winner,
-                    'points': obj.points}
-            dataToAppend.append(item)
-
-        self.miscDF = pd.DataFrame(dataToAppend)
-
-
-    def getCombinePointData(self):
-        self.getChiaseedData()
-        self.getFlyData()
-        self.getBoardGameData()
-        self.getMiscData()
-
-        self.combinedPointsDF = pd.concat([self.chiaSeedDF,
-                                           self.flyDataDF,
-                                           self.boardGameDF,
-                                           self.miscDF], axis=0)
-        
-        #Cast points to ints
-        self.combinedPointsDF['points'] = pd.to_numeric(self.combinedPointsDF['points'])
-
-        # Reset index
-        self.combinedPointsDF = self.combinedPointsDF.reset_index(drop=True)
-
-
     def generateLeaderBoard(self):
-         leaderBoard = self.combinedPointsDF.groupby('winner')['points'].sum().reset_index()
+        #leaderBoard = self.combinedPointsDF.groupby('winner')['points'].sum().reset_index()
+        
+        #Call self.getPointsbyUser() and get a dict of users and points
+        pointsByUsers = self.getPointsbyUser()
 
-        #Need to drop index
+        #Drop in DF
+        leaderBoardDF = pd.DataFrame(pointsByUsers, index=[0]).transpose()
 
-         leaderBoardHTML = leaderBoard.to_html(classes=["table table-bordered table-striped table-hover"])
+        #Make pretty
+        leaderBoardDF.rename( columns={0 :'Points'}, inplace=True )
+        leaderBoardDF.index.names = ['Name']
+        leaderBoardDF.sort_values(by=['Points'], inplace=True, ascending=False)
+        
+        leaderBoardHTML = leaderBoardDF.to_html(classes=["table table-bordered table-striped table-hover"])
 
-         return leaderBoardHTML
+        return leaderBoardHTML
     
-    def quickPointsTotal(self):
+    def getPointsbyUser(self):
         '''
-        Quickly retrieves points for users using mongodb-like syntax.
-        This does not rely on pulling down data to DF and parsing.
-        Returns dict of names and points.
-        I don't actually know how to do this. - GPT wrote this.
-        https://www.tutorialspoint.com/mongoengine/mongoengine_querying_database.htm
+        # Define the list of collections to query
+        pointCollectionList = [FlyKill, BoardGame, ChiaSeed, MiscPoints]
+
+        # Create a dictionary to hold the total points for each winner
+        winners = {}
+
+        # Query each collection for documents and sum the points for each winner
+        for collection in pointCollectionList:
+            for doc in collection.objects:
+                winner = doc.winner
+                points = doc.points
+                if winner not in winners:
+                    winners[winner] = points
+                else:
+                    winners[winner] += points
+
+        # Print the total points for each winner
+        for winner, points in winners.items():
+            print(f"{winner}: {points}")
         '''
         
         # Aggregate the points by user using the "group" method
@@ -155,7 +105,7 @@ class pointsAnalytics:
         #for user, total_points in merged_results.items():
             #print(f"user: {user}, totalPoints: {total_points}")
         
-        #print(merged_results)
+        print(merged_results)
         #print(type(merged_results))
         
         return merged_results
@@ -248,7 +198,6 @@ class pointsAnalytics:
                 for doc in temp:
                     query['nValue'] += int(doc.points)
 
-        print(divergenceList)
 
         # Calculate the total for each category
         for item in divergenceList:
@@ -271,13 +220,14 @@ class pointsAnalytics:
             y=[item['category'] for item in divergenceList],
             orientation='h',
             )
-        ))
+        )
 
         # Set the layout
         fig.update_layout(
-            title='Diverging Stacked Bar Chart',
+            title='Point Comparisons',
             barmode='relative',
             bargap=0.1,
+            showlegend=False,
             xaxis=dict(
                 title='Value',
                 #range=[-150, 150],
