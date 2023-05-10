@@ -28,19 +28,19 @@
       <div class="col-md-6 offset-md-3">
         <form method="POST">
           {{ board_games_winner_form.csrf_token }}
-          <div class="">
+          <div class="mb-3">
             {{ board_games_winner_form.dow.label(class="form-control-label") }}
             {{ board_games_winner_form.dow(class="form-control DateTimeField") }}
           </div>
-          <div class="">
+          <div class="mb-3">
             {{ board_games_winner_form.winner.label(class="form-control-label") }}
             {{ board_games_winner_form.winner(class="form-control") }}
           </div>
-          <div class="">
+          <div class="mb-3">
             {{ board_games_winner_form.game.label(class="form-control-label") }}
             {{ board_games_winner_form.game(class="form-control") }}
           </div>
-          <div class="">
+          <div class="mb-3">
             {{ board_games_winner_form.points.label(class="form-control-label") }}
             {{ board_games_winner_form.points(class="form-control") }}
           </div>

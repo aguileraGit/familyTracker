@@ -1,13 +1,10 @@
 # More to do
 
-- [ ] Update `editFamilyMember` to get user by ID
-
-- [x] Leaderboard table has index(Names) and Points on different rows.
+- [x] Update `editFamilyMember` to get user by ID
+ - [x] Needs to be tested
 
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page
-
-- [ ] Update form to be nicer (see `flies.html`)
 
 - [ ] Update profile to be nicer (add photos)
 

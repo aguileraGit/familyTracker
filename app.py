@@ -27,7 +27,6 @@ analytics = pointsAnalytics()
 # Define a route to render the user form
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    
     #Create leader board table
     leaderboardTable = analytics.generateLeaderBoard()
 
@@ -37,7 +36,6 @@ def index():
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     return render_template('index.html', leaderboardTable=leaderboardTable, graphJSON=graphJSON)
-
 
 #Define route to fly page
 @app.route('/flies', methods=['GET', 'POST'])
@@ -174,7 +172,7 @@ def viewAllFamilyMembers():
     return render_template('viewAllFamilyMembers.html', users=userList)
 
 
-#Edit User (Must provide ?id=...) 
+#Edit User (Must provide ?id=...)
 @app.route('/editFamilyMember', methods=['GET', 'POST'])
 def editFamilyMember():
 
@@ -185,7 +183,6 @@ def editFamilyMember():
         if userID == None:
             flash('No user ID provided', 'danger')
             return redirect('/')
-        
     
         #Get user data from DB by ID
         userInfoFromDB = family_members.objects.get(id=userID)
@@ -213,14 +210,11 @@ def editFamilyMember():
     #On request: process form. See addFamilyMember
     if request.method == 'POST':
         form = family_member_form(request.form)
-        print('ID')
-        print(request.args.get('id'))
-
-        #Need to update this so it looks for ID and not firstname.
 
         if form.validate():
             userID = request.args.get('id')
-            family_members.objects(id=userID).update(middleName=form.middleName.data,
+            family_members.objects(id=userID).update(firstName = form.firstName.data,
+                                                    middleName=form.middleName.data,
                                                     lastName=form.lastName.data,
                                                     nickName=form.nickName.data,
                                                     email=form.email.data,

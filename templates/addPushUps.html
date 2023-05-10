@@ -7,15 +7,15 @@
       <div class="col-md-6 offset-md-3">
         <form method="POST">
           {{ form.csrf_token }}
-          <div class="">
+          <div class="mb-3">
             {{ form.dateAdded.label(class="form-control-label") }}
             {{ form.dateAdded(class="form-control DateTimeField") }}
           </div>
-          <div class="">
+          <div class="mb-3">
             {{ form.count.label(class="form-control-label") }}
             {{ form.count(class="form-control") }}
           </div>
-          <div class="">
+          <div class="mb-3">
             {{ form.winner.label(class="form-control-label") }}
             {{ form.winner(class="form-control") }}
           </div>
