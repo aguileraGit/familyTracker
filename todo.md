@@ -2,15 +2,7 @@
 
 - [ ] Update `editFamilyMember` to get user by ID
 
-- [x] Get rid of `analytics.getCombinePointData()` and use mongoengine syntax
- - [x] `analytics.generateLeaderBoard` also needs to be reworked. 
- - [x] Lots of the analytics code will go away
- - [x] See GPT Chat
- 
-- [x] Analytics sort leader table
-- [x] Analytics - Show more plots
-- [ ] Leaderboard table has index(Names) and Points on different rows.
-- [x] Update `analytics.quickPointsTotal` to use `self.pointCollectionList`
+- [x] Leaderboard table has index(Names) and Points on different rows.
 
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page

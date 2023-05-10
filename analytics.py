@@ -28,10 +28,12 @@ class pointsAnalytics:
 
         #Make pretty
         leaderBoardDF.rename( columns={0 :'Points'}, inplace=True )
-        leaderBoardDF.index.names = ['Name']
+        leaderBoardDF['Names'] = leaderBoardDF.index
         leaderBoardDF.sort_values(by=['Points'], inplace=True, ascending=False)
+        leaderBoardDF = leaderBoardDF.loc[:, ['Names','Points']]
         
-        leaderBoardHTML = leaderBoardDF.to_html(classes=["table table-bordered table-striped table-hover"])
+        leaderBoardHTML = leaderBoardDF.to_html(classes=["table table-bordered table-striped table-hover"],
+                                                index_names=False, justify='left', index=False)
 
         return leaderBoardHTML
     
@@ -166,6 +168,7 @@ class pointsAnalytics:
             x=[d['pValue'] if d['nValue'] >= 0 else -d['pValue'] for d in divergenceList],
             y=[d['category'] for d in divergenceList],
             orientation='h',
+            marker_color='#3faad1'
         ))
 
         # Add the negative bars
@@ -173,8 +176,8 @@ class pointsAnalytics:
             x=[d['nValue'] if d['nValue'] >= 0 else 0 for d in divergenceList],
             y=[d['category'] for d in divergenceList],
             orientation='h',
-            )
-        )
+            marker_color='#3faad1'
+            ))
 
         # Set the layout
         fig.update_layout(
@@ -183,7 +186,6 @@ class pointsAnalytics:
             bargap=0.1,
             showlegend=False,
             xaxis=dict(
-                #title='Value',
                 tickvals=[d['nValue'] if d['nValue'] < 0 else d['pValue'] for d in divergenceList],
                 ticktext=[str(abs(d['nValue'])) if d['nValue'] < 0 else str(d['pValue']) for d in divergenceList]
             )
