@@ -36,79 +36,25 @@ class pointsAnalytics:
         return leaderBoardHTML
     
     def getPointsbyUser(self):
-        '''
-        # Define the list of collections to query
-        pointCollectionList = [FlyKill, BoardGame, ChiaSeed, MiscPoints]
-
         # Create a dictionary to hold the total points for each winner
         winners = {}
 
         # Query each collection for documents and sum the points for each winner
-        for collection in pointCollectionList:
+        for collection in self.pointCollectionList:
             for doc in collection.objects:
                 winner = doc.winner
-                points = doc.points
+                points = int(doc.points)
                 if winner not in winners:
-                    winners[winner] = points
+                    winners[winner] = int(points)
                 else:
-                    winners[winner] += points
+                    winners[winner] += int(points)
 
         # Print the total points for each winner
-        for winner, points in winners.items():
-            print(f"{winner}: {points}")
-        '''
-        
-        # Aggregate the points by user using the "group" method
-        pipeline = [
-            {"$group": {"_id": "$winner", "total_points": {"$sum": {"$toInt": "$points"}}}}
-        ]
+        #for winner, points in winners.items():
+        #    print(f"{winner}: {points}")
 
-        # Execute the aggregation pipeline for the "misc_points" collection
-        misc_points_results = misc_points.objects.aggregate(*pipeline)
+        return winners
 
-        # Execute the aggregation pipeline for the "fly_kills" collection
-        fly_kills_results = fly_kills.objects.aggregate(*pipeline)
-
-        board_game_results = board_games_winner.objects.aggregate(*pipeline)
-
-        chia_seeds_results = chia_seeds.objects.aggregate(*pipeline)
-
-        # Merge the results of both collections by user
-        merged_results = {}
-
-        for result in misc_points_results:
-            merged_results[result['_id']] = result['total_points']
-
-        for result in fly_kills_results:
-            user = result['_id']
-            if user in merged_results:
-                merged_results[user] += result['total_points']
-            else:
-                merged_results[user] = result['total_points']
-
-        for result in board_game_results:
-            user = result['_id']
-            if user in merged_results:
-                merged_results[user] += result['total_points']
-            else:
-                merged_results[user] = result['total_points']
-
-        for result in chia_seeds_results:
-            user = result['_id']
-            if user in merged_results:
-                merged_results[user] += result['total_points']
-            else:
-                merged_results[user] = result['total_points']
-
-
-        # Print the results
-        #for user, total_points in merged_results.items():
-            #print(f"user: {user}, totalPoints: {total_points}")
-        
-        print(merged_results)
-        #print(type(merged_results))
-        
-        return merged_results
 
     def collectAllData(self):
         data = []
@@ -123,9 +69,6 @@ class pointsAnalytics:
 
     def createDivergencePlots(self):
 
-        # Get users in DF - membersDF
-        #List of dict. Each dict contains the information to query the Users
-        # DB and store the values to plot later one
         divergenceList = []
 
         #Parents vs Kids
@@ -161,6 +104,17 @@ class pointsAnalytics:
             'nValue': None},
         )
 
+        #Boys vs Girls
+        divergenceList.append({'category': 'Boys vs Girls',
+            'qType': 'sex',
+            'pQuery': ['f'],
+            'pNames': None,
+            'pValue': None,
+            'nQuery': ['m'],
+            'nNames': None,
+            'nValue': None},
+        )
+
         #Query DB and get back 
         for query in divergenceList:
             if query['qType'] == 'familyRelationship':
@@ -172,10 +126,10 @@ class pointsAnalytics:
                 query['nNames'] = temp.values_list('firstName')
 
             elif query['qType'] == 'sex':
-                temp = family_members.objects(mf__in=query['pQuery'].values_list('firstName'))
+                temp = family_members.objects(mf__in=query['pQuery'])
                 query['pNames'] = temp.values_list('firstName')
 
-                temp = family_members.objects(mf__in=query['nQuery'].values_list('firstName'))
+                temp = family_members.objects(mf__in=query['nQuery'])
                 query['nNames'] = temp.values_list('firstName')
 
             elif query['qType'] == 'dob':
@@ -209,15 +163,15 @@ class pointsAnalytics:
 
         # Add the positive bars
         fig.add_trace(go.Bar(
-            x=[item['pValue'] for item in divergenceList],
-            y=[item['category'] for item in divergenceList],
+            x=[d['pValue'] if d['nValue'] >= 0 else -d['pValue'] for d in divergenceList],
+            y=[d['category'] for d in divergenceList],
             orientation='h',
         ))
 
         # Add the negative bars
         fig.add_trace(go.Bar(
-            x=[item['nValue'] for item in divergenceList],
-            y=[item['category'] for item in divergenceList],
+            x=[d['nValue'] if d['nValue'] >= 0 else 0 for d in divergenceList],
+            y=[d['category'] for d in divergenceList],
             orientation='h',
             )
         )
@@ -229,10 +183,9 @@ class pointsAnalytics:
             bargap=0.1,
             showlegend=False,
             xaxis=dict(
-                title='Value',
-                #range=[-150, 150],
-                #tickvals=[-150, -100, -50, 0, 50, 100, 150],
-                #ticktext=['-150', '-100', '-50', '0', '50', '100', '150']
+                #title='Value',
+                tickvals=[d['nValue'] if d['nValue'] < 0 else d['pValue'] for d in divergenceList],
+                ticktext=[str(abs(d['nValue'])) if d['nValue'] < 0 else str(d['pValue']) for d in divergenceList]
             )
         )
 

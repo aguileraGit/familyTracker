@@ -10,7 +10,7 @@
 - [x] Analytics sort leader table
 - [x] Analytics - Show more plots
 - [ ] Leaderboard table has index(Names) and Points on different rows.
-- [ ] Update `analytics.quickPointsTotal` to use `self.pointCollectionList`
+- [x] Update `analytics.quickPointsTotal` to use `self.pointCollectionList`
 
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page
