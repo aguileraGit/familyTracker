@@ -1,7 +1,7 @@
 # More to do
 
-- [ ] Move 'Add new board game' to Settings page
-- [ ] Add new family member to Settings page
+- [x] Move 'Add new board game' to Settings page
+- [x] Add new family member to Settings page
 
 - [ ] Update profile to be nicer (add photos)
 

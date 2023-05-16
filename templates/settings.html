@@ -1,6 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<h1>Add new board game</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form method="POST">
+          {{ board_game_add_form.csrf_token }}
+          <div class="">
+            {{ board_game_add_form.game.label(class="form-control-label") }}
+            {{ board_game_add_form.game(class="form-control") }}
+          </div>
+          <div class="">
+            {{ board_game_add_form.dateAdded.label(class="form-control-label") }}
+            {{ board_game_add_form.dateAdded(class="form-control DateTimeField") }}
+          </div>
+          <button type="submit" class="btn btn-primary">Add Game</button>
+        </form>
+      </div>
+    </div>
+  </div>
   <h1>Create a new user</h1>
   
   <div class="container">
@@ -53,4 +73,5 @@
       </div>
     </div>
   </div>
-{% endblock %}
+
+  {% endblock %}

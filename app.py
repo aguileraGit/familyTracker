@@ -32,7 +32,6 @@ def index():
 
     #Generate divergence plots
     fig = analytics.createDivergencePlots()
-    
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     return render_template('index.html', leaderboardTable=leaderboardTable, graphJSON=graphJSON)
@@ -59,18 +58,8 @@ def flies():
 @app.route('/boardgame', methods=['GET', 'POST'])
 def boardgames():
     print('Fn boardgame')
-    newGameForm =  board_game_add_form(request.form)
     newWinnerGameForm = board_games_winner_form(request.form)
 
-    if request.method == 'POST' and newGameForm.validate():
-        print('Add new board game')
-        newBoardGame = board_games(game = newGameForm.game.data,
-                                   dateAdded = newGameForm.dateAdded.data.isoformat())
-        newBoardGame.save()
-
-        flash('New Board Game Added', 'success')
-        return redirect('/')
-    
     if request.method == 'POST' and newWinnerGameForm.validate():
         print('Add new board game winner')
         newWinner = board_games_winner(dow = newWinnerGameForm.dow.data.isoformat(),
@@ -79,9 +68,8 @@ def boardgames():
         newWinner.save()
         flash('New Winner Added!', 'success')
         return redirect('/')
-
+    
     return render_template('boardgames.html',
-                           board_game_add_form = newGameForm,
                            board_games_winner_form = newWinnerGameForm)
 
 
@@ -119,6 +107,7 @@ def addPushups():
     
     return render_template('addPushUps.html', form=form)
 
+
 #Misc
 @app.route('/misc', methods=['GET', 'POST'])
 def misc():
@@ -137,10 +126,34 @@ def misc():
     return render_template('misc.html', form=form)
 
 
-@app.route('/addFamilyMember', methods=['GET', 'POST'])
-def addFamilyMember():
-    print('Fn addFamilyMember')
+#Users Page
+@app.route('/viewAllFamilyMembers', methods=['GET', 'POST'])
+def viewAllFamilyMembers():
+
+    userList = []
+    for user in family_members.objects:
+        userList.append(user)
+
+    return render_template('viewAllFamilyMembers.html', users=userList)
+
+
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    '''
+    Add board game. Add family member.
+    '''
+    newGameForm = board_game_add_form(request.form)
     form = family_member_form(request.form)
+    if request.method == 'POST' and newGameForm.validate():
+        print('Add new board game')
+        newBoardGame = board_games(game = newGameForm.game.data,
+                                   dateAdded = newGameForm.dateAdded.data.isoformat())
+        newBoardGame.save()
+
+        flash('New Board Game Added', 'success')
+        return redirect('/')
+
+    
     if request.method == 'POST' and form.validate():
         print('Request and validated')
         user = family_members(firstName = form.firstName.data,
@@ -154,23 +167,11 @@ def addFamilyMember():
                              pictureFilename = form.pictureFilename.data,
                              familyRelationship = form.familyRelationship.data)
         user.save()
-
-        # Redirect back to the index page
         flash('User created successfully!', 'success')
         return redirect('/')
-    return render_template('addFamilyMember.html', form=form)
 
-
-#Users Page
-@app.route('/viewAllFamilyMembers', methods=['GET', 'POST'])
-def viewAllFamilyMembers():
-
-    userList = []
-    for user in family_members.objects:
-        userList.append(user)
-
-    return render_template('viewAllFamilyMembers.html', users=userList)
-
+    return(render_template('settings.html', board_game_add_form = newGameForm,
+                           form=form))
 
 #Edit User (Must provide ?id=...)
 @app.route('/editFamilyMember', methods=['GET', 'POST'])
