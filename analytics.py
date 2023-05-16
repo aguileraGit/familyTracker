@@ -73,48 +73,52 @@ class pointsAnalytics:
 
         divergenceList = []
 
+        #Category must always be in the format A vs B. The plot traces
+        # are pulled from this later on. The order in the plot follows
+        # A=negative and B=positive.
+
         #Parents vs Kids
-        divergenceList.append({'category': 'Parents vs Kids',
+        divergenceList.append({'category': 'Kids vs Parents',
             'qType': 'familyRelationship',
-            'pQuery': ['brother', 'sister'],
-            'pNames': None,
-            'pValue': None,
-            'nQuery': ['mother', 'father'],
+            'nQuery': ['brother', 'sister'],
             'nNames': None,
-            'nValue': None},
+            'nValue': None,
+            'pQuery': ['mother', 'father'],
+            'pNames': None,
+            'pValue': None},
         )
         
         #Brothers vs Sister
         divergenceList.append({'category': 'Brothers vs Sisters',
             'qType': 'familyRelationship',
-            'pQuery': ['brother'],
-            'pNames': None,
-            'pValue': None,
-            'nQuery': ['sister'],
+            'nQuery': ['brother'],
             'nNames': None,
-            'nValue': None},
+            'nValue': None,
+            'pQuery': ['sister'],
+            'pNames': None,
+            'pValue': None},
         )
 
         #Mom vs Dad
         divergenceList.append({'category': 'Mom vs Dad',
             'qType': 'familyRelationship',
-            'pQuery': ['mother'],
-            'pNames': None,
-            'pValue': None,
-            'nQuery': ['father'],
+            'nQuery': ['mother'],
             'nNames': None,
-            'nValue': None},
+            'nValue': None,
+            'pQuery': ['father'],
+            'pNames': None,
+            'pValue': None},
         )
 
         #Boys vs Girls
-        divergenceList.append({'category': 'Boys vs Girls',
+        divergenceList.append({'category': 'Girls vs Boys',
             'qType': 'sex',
-            'pQuery': ['f'],
-            'pNames': None,
-            'pValue': None,
-            'nQuery': ['m'],
+            'nQuery': ['f'],
             'nNames': None,
-            'nValue': None},
+            'nValue': None,
+            'pQuery': ['m'],
+            'pNames': None,
+            'pValue': None},
         )
 
         #Query DB and get back 
@@ -168,6 +172,7 @@ class pointsAnalytics:
             x=[item['pValue'] for item in divergenceList],
             y=[item['category'] for item in divergenceList],
             orientation='h',
+            #name = [item['category'].split(' ')[0] for item in divergenceList]
         ))
 
         # Add the negative bars
@@ -175,6 +180,7 @@ class pointsAnalytics:
             x=[item['nValue'] for item in divergenceList],
             y=[item['category'] for item in divergenceList],
             orientation='h',
+            #name = [item['category'].split(' ')[2] for item in divergenceList]
             )
         )
 
