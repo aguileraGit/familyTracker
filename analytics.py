@@ -168,7 +168,6 @@ class pointsAnalytics:
             x=[d['pValue'] if d['nValue'] >= 0 else -d['pValue'] for d in divergenceList],
             y=[d['category'] for d in divergenceList],
             orientation='h',
-            marker_color='#3faad1'
         ))
 
         # Add the negative bars
@@ -176,8 +175,8 @@ class pointsAnalytics:
             x=[d['nValue'] if d['nValue'] >= 0 else 0 for d in divergenceList],
             y=[d['category'] for d in divergenceList],
             orientation='h',
-            marker_color='#3faad1'
-            ))
+            )
+        )
 
         # Set the layout
         fig.update_layout(
@@ -186,6 +185,7 @@ class pointsAnalytics:
             bargap=0.1,
             showlegend=False,
             xaxis=dict(
+                #title='Value',
                 tickvals=[d['nValue'] if d['nValue'] < 0 else d['pValue'] for d in divergenceList],
                 ticktext=[str(abs(d['nValue'])) if d['nValue'] < 0 else str(d['pValue']) for d in divergenceList]
             )

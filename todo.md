@@ -1,8 +1,5 @@
 # More to do
 
-- [x] Update `editFamilyMember` to get user by ID
- - [x] Needs to be tested
-
 - [ ] Move 'Add new board game' to Settings page
 - [ ] Add new family member to Settings page
 
