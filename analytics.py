@@ -165,15 +165,15 @@ class pointsAnalytics:
 
         # Add the positive bars
         fig.add_trace(go.Bar(
-            x=[d['pValue'] if d['nValue'] >= 0 else -d['pValue'] for d in divergenceList],
-            y=[d['category'] for d in divergenceList],
+            x=[item['pValue'] for item in divergenceList],
+            y=[item['category'] for item in divergenceList],
             orientation='h',
         ))
 
         # Add the negative bars
         fig.add_trace(go.Bar(
-            x=[d['nValue'] if d['nValue'] >= 0 else 0 for d in divergenceList],
-            y=[d['category'] for d in divergenceList],
+            x=[item['nValue'] for item in divergenceList],
+            y=[item['category'] for item in divergenceList],
             orientation='h',
             )
         )
@@ -185,9 +185,10 @@ class pointsAnalytics:
             bargap=0.1,
             showlegend=False,
             xaxis=dict(
-                #title='Value',
-                tickvals=[d['nValue'] if d['nValue'] < 0 else d['pValue'] for d in divergenceList],
-                ticktext=[str(abs(d['nValue'])) if d['nValue'] < 0 else str(d['pValue']) for d in divergenceList]
+                title='Value',
+                #range=[-150, 150],
+                #tickvals=[-150, -100, -50, 0, 50, 100, 150],
+                #ticktext=['-150', '-100', '-50', '0', '50', '100', '150']
             )
         )
 
