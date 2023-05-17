@@ -1,10 +1,8 @@
 # More to do
 
-- [x] Move 'Add new board game' to Settings page
-- [x] Add new family member to Settings page
-
 - [ ] Update profile to be nicer (add photos)
-
+- [ ] Look at summary section below
+ - [ ] Look at web alerts to send notifications (report is ready or reminder to do push ups)
 - [ ] Add users to make public (requires server)
 
 
@@ -14,13 +12,15 @@ https://plotly.com/python/templates/
 https://blog.heptanalytics.com/flask-plotly-dashboard/
 
 
-### Weekly Summary
+### Monthly Summary
 Generic Fn that filters data by date and returns a DF. Each item below can pull from combinedDataDF or specificDF. 
  - Table by Fly/Board Games/Chia Seeds
  - Total points by winner
  - Games played
  - Flys killed
-Note: CombinedDataDF should probably include other columns. I'm thinking boardGameDF should include game played.
+ - Most points for the week/month
+ - Push ups 
+
 
 
 # Configuration
