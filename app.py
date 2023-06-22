@@ -1,7 +1,7 @@
 #https://www.mongodb.com/compatibility/mongoengine-pymongo
 #https://www.tutorialspoint.com/mongoengine/mongoengine_quick_guide.htm
 
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, jsonify
 from mongoengine import connect
 import json
 import datetime
@@ -95,6 +95,7 @@ def chiaseeds():
 @app.route('/addPushups', methods=['GET', 'POST'])
 def addPushups():
     print('Fn addPushups')
+
     form = push_ups_form(request.form)
 
     if request.method == 'POST' and form.validate():
@@ -104,8 +105,26 @@ def addPushups():
         push_ups_done_correctly.save()
         flash('Push ups Added', 'success')
         return redirect('/')
-    
+
     return render_template('addPushUps.html', form=form)
+
+#Load Push up data to display on website
+@app.route('/load_data', methods=['POST'])
+def load_data():
+    print('load_data')
+    start_date = request.json['start_date']
+    end_date = request.json['end_date']
+
+    data = push_ups.objects(dateAdded__gte=start_date, dateAdded__lte=end_date).order_by('-dateAdded')
+
+    response = []
+    for entry in data:
+        response.append({
+            'dateAdded': entry.dateAdded,
+            'count': entry.count
+        })
+
+    return jsonify(response)
 
 
 #Misc
