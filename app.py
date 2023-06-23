@@ -114,18 +114,37 @@ def load_data():
     print('load_data')
     start_date = request.json['start_date']
     end_date = request.json['end_date']
-
-    data = push_ups.objects(dateAdded__gte=start_date, dateAdded__lte=end_date).order_by('-dateAdded')
+    dBs = request.json['dBs']
 
     response = []
-    for entry in data:
-        response.append({
-            'dateAdded': entry.dateAdded,
-            'count': entry.count
-        })
+
+    if 'pushups' in dBs:
+        data = push_ups.objects(dateAdded__gte=start_date, dateAdded__lte=end_date).order_by('-dateAdded')
+
+        for entry in data:
+            response.append({
+                'dateAdded': entry.dateAdded,
+                'count': entry.count,
+                'winner': entry.winner,
+                'type': 'Push ups'
+            })
+
+    elif 'flys' in dBs:
+        print('flys')
+        No flies ever show up.
+        data = fly_kills.objects(dateAdded__gte=start_date, dateAdded__lte=end_date).order_by('-dateAdded')
+
+        for entry in data:
+            response.append({
+                'dateAdded': entry.dateAdded,
+                'winner': entry.winner,
+                'type': 'Push ups'
+            })
+
+    print(response)
+            
 
     return jsonify(response)
-
 
 #Misc
 @app.route('/misc', methods=['GET', 'POST'])

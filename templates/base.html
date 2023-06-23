@@ -49,7 +49,7 @@
               <a class="nav-link" href="{{ url_for('boardgames') }}">Board Games</a>
               <a class="nav-link" href="{{ url_for('chiaseeds') }}">Chia Seeds</a>
               <a class="nav-link" href="{{ url_for('viewAllFamilyMembers') }}">View All Family Members</a>
-              <a class="nav-link" href="{{ url_for('addPushups') }}">Add Push Ups</a>
+              <a class="nav-link" href="{{ url_for('addPushups') }}">Push Ups</a>
               <a class="nav-link" href="{{ url_for('misc') }}">Misc Points</a>
               <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
             </div>
@@ -75,51 +75,66 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         $(document).ready(function () {
-            var startDate = new Date();
-            var endDate = new Date();
-            startDate.setDate(endDate.getDate() - 14);
+            //var startDate = new Date();
+            //var endDate = new Date();
+            //startDate.setDate(endDate.getDate() - 14);
+            
+            //Need to change to something like this.
+            //This needs to change per page loaded.
+            //loadTimeline(startDate, endDate, ['pushups', 'flys', 'games', 'chiaseeds']);
 
-            loadTimeline(startDate, endDate);
-
-            $('#loadMoreBtn').on('click', function () {
-                startDate.setDate(startDate.getDate() - 14);
-                loadTimeline(startDate, endDate);
-            });
+            //Change function to include a list of DB to pull from.
+            // On the Flask side, query per list. Will need to combine and sort per date
+            // Will also need to include the DB type: fly, push up, chia seeds, etc.
+            // On the JS side, the type will change the image
+            // Flask should push users
         });
 
-        function loadTimeline(startDate, endDate) {
+        function loadTimeline(startDate, endDate, dbTypes) {
+          console.log(dbTypes);
           $.ajax({
               url: '/load_data',
               method: 'POST',
               contentType: 'application/json',
               data: JSON.stringify({
                   start_date: startDate.toISOString(),
-                  end_date: endDate.toISOString()
+                  end_date: endDate.toISOString(),
+                  dBs: dbTypes
               }),
               success: function (data) {
                   var timeline = $('#timeline');
                   timeline.empty();
                   for (var i = 0; i < data.length; i++) {
                       var entry = data[i];
-                      var card = $('<div class="card horizontal mt-3 narrow-card">');
+                      var card = $('<div class="card mb-3" style="max-width: 320px;">');
+		      
+                      //Add row
+                      var row = $('<div class="row g-0">');
+                      card.append(row);
 
-                      // Left side with Bootstrap icon
-                      var iconDiv = $('<div class="card-image">').html(
-                          '<i style = "color:orange;" class="bi bi-trophy-fill" style="font-size: 2rem;"></i>'
-                      );
-                      card.append(iconDiv);
+                      //Add picture column to row
+                      var picCol = $('<div class="col-md-4 d-flex justify-content-center align-items-center">').html(
+                        '<i style = "color:orange;" class="bi bi-trophy-fill fs-1"></i><p><small class="text-muted">' + entry.winner + '</small></p>' );
+                      row.append(picCol);
 
-                      // Right side with title (badge) and footer (date)
-                      var contentDiv = $('<div class="card-body">');
-                      var title = $('<h5 class="card-title">').html(
-                          '<span class="badge bg-dark">' + entry.count + '</span>'
-                      );
-                      var footer = $('<p class="card-text text-muted">').text(entry.dateAdded);
-                      contentDiv.append(title, footer);
-                      card.append(contentDiv);
+                      //Create content column
+                      var contentColumn = $('<div class="col-md-8">');
+                      row.append(contentColumn)
 
+                      //Create Body 
+                      var cardBody = $('<div class="card-body">');
+                      contentColumn.append(cardBody);
+
+                      //Fill body
+                      var cardTitle = $('<h5 class="card-title">').html(entry.type);
+                      var cardBodyText = $('<p class="card-text">').html('<span class="badge bg-dark">' + entry.count + '</span>');
+                      var cardFooter = $('<p class="card-text">').html('<small class="text-muted">' + entry.dateAdded + '</small>');
+
+                      cardBody.append(cardTitle, cardBodyText, cardFooter);
+                      
                       timeline.append(card);
                   }
               }
@@ -128,6 +143,7 @@
 
         
     </script>
+    {% block javascriptCode %} {% endblock %}
 
   </body>
 </html>
