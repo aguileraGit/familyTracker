@@ -129,21 +129,46 @@ def load_data():
                 'type': 'Push ups'
             })
 
-    elif 'flys' in dBs:
-        print('flys')
-        No flies ever show up.
-        data = fly_kills.objects(dateAdded__gte=start_date, dateAdded__lte=end_date).order_by('-dateAdded')
+    if 'flies' in dBs:
+        print('flies')
+        data = fly_kills.objects(dow__gte=start_date, dow__lte=end_date).order_by('-dow')
 
         for entry in data:
             response.append({
-                'dateAdded': entry.dateAdded,
+                'dateAdded': entry.dow,
                 'winner': entry.winner,
-                'type': 'Push ups'
+                'type': 'Flies',
+                'points': entry.points
             })
-
-    print(response)
             
 
+    if 'games' in dBs:
+        print('games')
+        data = board_games_winner.objects(dow__gte=start_date, dow__lte=end_date).order_by('-dow')
+
+        for entry in data:
+            response.append({
+                'dateAdded': entry.dow,
+                'winner': entry.winner,
+                'type': 'Games',
+                'points': entry.points
+            })
+
+    if 'chiaseeds' in dBs:
+        print('chiaseeds')
+        data = chia_seeds.objects(dow__gte=start_date, dow__lte=end_date).order_by('-dow')
+
+        for entry in data:
+            response.append({
+                'dateAdded': entry.dow,
+                'winner': entry.winner,
+                'type': 'Chiaseeds',
+                'points': entry.points
+            })
+
+    #print(response)
+
+    #Need to figure out how to order 
     return jsonify(response)
 
 #Misc

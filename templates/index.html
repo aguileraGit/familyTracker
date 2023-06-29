@@ -35,4 +35,29 @@
 
   <div id='chart' class='chart'”></div>
 
+  <div class="container mt-5">
+    <h1>Timeline</h1>
+    <div id="timeline" class="mt-4"></div>
+    <button id="loadMoreBtn" class="btn btn-primary mt-4">Load More</button>
+  </div>
+
 {% endblock %}
+
+{% block javascriptCode %}
+  <!-- This works. Look at base.html for all the other JS changes -->
+
+  <script>
+    var startDate = new Date();
+    var endDate = new Date();
+    startDate.setDate(endDate.getDate() - 14);
+
+    loadTimeline(startDate, endDate, ['pushups', 'flies', 'games', 'chiaseeds']);
+
+    $('#loadMoreBtn').on('click', function () {
+        startDate.setDate(startDate.getDate() - 14);
+        loadTimeline(startDate, endDate, ['pushups', 'flies', 'games', 'chiaseeds']);
+    });
+
+  </script>
+
+  {% endblock javascriptCode %}

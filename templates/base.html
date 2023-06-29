@@ -94,52 +94,74 @@
         });
 
         function loadTimeline(startDate, endDate, dbTypes) {
-          console.log(dbTypes);
-          $.ajax({
-              url: '/load_data',
-              method: 'POST',
-              contentType: 'application/json',
-              data: JSON.stringify({
-                  start_date: startDate.toISOString(),
-                  end_date: endDate.toISOString(),
-                  dBs: dbTypes
-              }),
-              success: function (data) {
-                  var timeline = $('#timeline');
-                  timeline.empty();
-                  for (var i = 0; i < data.length; i++) {
-                      var entry = data[i];
-                      var card = $('<div class="card mb-3" style="max-width: 320px;">');
-		      
-                      //Add row
-                      var row = $('<div class="row g-0">');
-                      card.append(row);
+    console.log(dbTypes);
+    $.ajax({
+        url: '/load_data',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            start_date: startDate.toISOString(),
+            end_date: endDate.toISOString(),
+            dBs: dbTypes,
+        }),
+        success: function (data) {
+            var timeline = $('#timeline');
+            timeline.empty();
+            for (var i = 0; i < data.length; i++) {
+                var entry = data[i];
+                var card = $('<div class="card mb-3" style="max-width: 320px;">');
+                
+                // Add row
+                var row = $('<div class="row g-0">');
+                card.append(row);
 
-                      //Add picture column to row
-                      var picCol = $('<div class="col-md-4 d-flex justify-content-center align-items-center">').html(
-                        '<i style = "color:orange;" class="bi bi-trophy-fill fs-1"></i><p><small class="text-muted">' + entry.winner + '</small></p>' );
-                      row.append(picCol);
+                // Add picture column to row
+                if (entry.type == 'Push ups'){
+                    var picCol = $('<div class="col-md-4 d-flex justify-content-center align-items-center">').html(
+                        '<i style="color: orange;" class="bi bi-trophy-fill fs-1"></i><p><small class="text-muted">' + entry.winner + '</small></p>');
+                    row.append(picCol);
+                } else if (entry.type == 'Flies'){
+                    var picCol = $('<div class="col-md-4 d-flex justify-content-center align-items-center">').html(
+                        '<i style="color: black;" class="bi bi-bug-fill fs-1"></i><p><small class="text-muted">' + entry.winner + '</small></p>');
+                    row.append(picCol);
+                } else if (entry.type == 'Games'){
+                    var picCol = $('<div class="col-md-4 d-flex justify-content-center align-items-center">').html(
+                        '<i style="color: blue;" class="bi bi-dice-3-fill fs-1"></i><p><small class="text-muted">' + entry.winner + '</small></p>');
+                    row.append(picCol);
+                } else if (entry.type == 'Chiaseeds'){
+                    var picCol = $('<div class="col-md-4 d-flex justify-content-center align-items-center">').html(
+                        '<i style="color: green;" class="bi bi-egg-fill fs-1"></i><p><small class="text-muted">' + entry.winner + '</small></p>');
+                    row.append(picCol);
+                } else {
+                    console.log('No items');
+                }
 
-                      //Create content column
-                      var contentColumn = $('<div class="col-md-8">');
-                      row.append(contentColumn)
+                // Create content column
+                var contentColumn = $('<div class="col-md-8">');
+                row.append(contentColumn)
 
-                      //Create Body 
-                      var cardBody = $('<div class="card-body">');
-                      contentColumn.append(cardBody);
+                // Create Body 
+                var cardBody = $('<div class="card-body">');
+                contentColumn.append(cardBody);
 
-                      //Fill body
-                      var cardTitle = $('<h5 class="card-title">').html(entry.type);
-                      var cardBodyText = $('<p class="card-text">').html('<span class="badge bg-dark">' + entry.count + '</span>');
-                      var cardFooter = $('<p class="card-text">').html('<small class="text-muted">' + entry.dateAdded + '</small>');
+                // Fill body
+                var cardTitle = $('<h5 class="card-title">').html(entry.type);
 
-                      cardBody.append(cardTitle, cardBodyText, cardFooter);
-                      
-                      timeline.append(card);
-                  }
-              }
-          });
+                if (entry.type == 'Push ups'){
+                    var cardBodyText = $('<p class="card-text">').html('<span class="badge bg-dark">' + entry.count + '</span>');
+                } else {
+                    var cardBodyText = $('<p class="card-text">').html('<span class="badge bg-dark">' + entry.points + '</span>');
+                }
+                
+                var cardFooter = $('<p class="card-text">').html('<small class="text-muted">' + entry.dateAdded + '</small>');
+
+                cardBody.append(cardTitle, cardBodyText, cardFooter);
+                
+                timeline.append(card);
+            }
         }
+    });
+}
 
         
     </script>
