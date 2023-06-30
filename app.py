@@ -49,7 +49,7 @@ def flies():
                            points = form.points.data)
         fKills.save()
 
-        flash('User created successfully!', 'success')
+        flash('New Winner Added!', 'success')
         return redirect('/')
 
     return render_template('flies.html', form=form)
@@ -166,10 +166,12 @@ def load_data():
                 'points': entry.points
             })
 
-    #print(response)
+    sorted_response = sorted(response, key=lambda x: x['dateAdded'])
+
+    print(response)
 
     #Need to figure out how to order 
-    return jsonify(response)
+    return jsonify(sorted_response)
 
 #Misc
 @app.route('/misc', methods=['GET', 'POST'])
