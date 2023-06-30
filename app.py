@@ -166,7 +166,7 @@ def load_data():
                 'points': entry.points
             })
 
-    sorted_response = sorted(response, key=lambda x: x['dateAdded'])
+    sorted_response = sorted(response, key=lambda x: x['dateAdded'], reverse=True)
 
     print(response)
 
