@@ -2,43 +2,55 @@
 
 {% block content %}
 
-  <h1>Points</h1>
-  <h5>Flys</h5>
-  {{pointsFlys[0][1]}} is worth {{pointsFlys[0][0]}} points. {{pointsFlys[1][1]}} is worth {{pointsFlys[1][0]}}<p>
-  <h5>Games</h5>
-  {{pointsGames[0][1]}} is worth {{pointsGames[0][0]}} points. {{pointsGames[1][1]}} is worth {{pointsGames[1][0]}}<p>
- <h5>Chia Seeds</h5>
-  {{pointsChiaSeeds[0][1]}} is worth {{pointsChiaSeeds[0][0]}} points. {{pointsChiaSeeds[1][1]}} is worth {{pointsChiaSeeds[1][0]}}. {{pointsChiaSeeds[2][1]}} is worth {{pointsChiaSeeds[2][0]}}<p>
-  <p>
-  <h1>Rules</h1>
+  <div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Leaderboard</h1><br>
+    <hr></hr>
+    {{ leaderboardTable | safe }}
+    <div id='chart' class='chart'></div> 
+  </div>
 
-  <ul class="list">
-    <li>No whining or crying.</li>
-    <li>Mom gets final say.</li>
-  </ul>
-
-  Flies Rules<br>
-  <ul class="list">
-    <li>No extra points for using your hand or anything besides a fly swatter.</li>
-    <li>You must clean up your fly for the point to stick.</li>
-  </ul>
-
-  Chia Seeds Rules<br>
-  <ul class="list">
-    <li>You can not guess if you help or see chia seeds being put into the food.</li>
-    <li>If no comments are made when the meal is over, whoever helped can request the point.</li>
-    <li>Incorrect guesses do not count against the person guessing. But a point is awarded to whoever cooked. Must be entered twice.</li>
-  </ul>
-
-  <h1>Leaderboard</h1><br>
-  {{ leaderboardTable | safe }}
-
-  <div id='chart' class='chart'”></div>
-
-  <div class="container mt-5">
-    <h1>Timeline</h1>
+  <div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Timeline</h1>
+    <hr></hr>
     <div id="timeline" class="mt-4"></div>
-    <button id="loadMoreBtn" class="btn btn-primary mt-4">Load More</button>
+    <div class="text-center">
+      <button id="loadMoreBtn" class="btn btn-primary m-4">Load More</button>
+    </div>
+  </div>
+
+  <div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Points</h1>
+    <hr></hr>
+    <h5>Flys</h5>
+      {{pointsFlys[0][1]}} is worth {{pointsFlys[0][0]}} points. {{pointsFlys[1][1]}} is worth {{pointsFlys[1][0]}}<p>
+    <h5>Games</h5>
+      {{pointsGames[0][1]}} is worth {{pointsGames[0][0]}} points. {{pointsGames[1][1]}} is worth {{pointsGames[1][0]}}<p>
+    <h5>Chia Seeds</h5>
+      {{pointsChiaSeeds[0][1]}} is worth {{pointsChiaSeeds[0][0]}} points. {{pointsChiaSeeds[1][1]}} is worth {{pointsChiaSeeds[1][0]}}. {{pointsChiaSeeds[2][1]}} is worth {{pointsChiaSeeds[2][0]}}<p>
+    <p>
+  </div>
+
+  <div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Rules</h1>
+    <hr></hr>
+
+    <ul class="list">
+      <li>No whining or crying.</li>
+      <li>Mom gets final say.</li>
+    </ul>
+
+    Flies Rules<br>
+    <ul class="list">
+      <li>No extra points for using your hand or anything besides a fly swatter.</li>
+      <li>You must clean up your fly for the point to stick.</li>
+    </ul>
+
+    Chia Seeds Rules<br>
+    <ul class="list">
+      <li>You can not guess if you help or see chia seeds being put into the food.</li>
+      <li>If no comments are made when the meal is over, whoever helped can request the point.</li>
+      <li>Incorrect guesses do not count against the person guessing. But a point is awarded to whoever cooked. Must be entered twice.</li>
+    </ul>
   </div>
 
 {% endblock %}
@@ -51,11 +63,11 @@
     var endDate = new Date();
     startDate.setDate(endDate.getDate() - 14);
 
-    loadTimeline(startDate, endDate, ['pushups', 'flies', 'games', 'chiaseeds']);
+    loadTimeline(startDate, endDate, ['pushups', 'flies', 'games', 'chiaseeds', 'misc']);
 
     $('#loadMoreBtn').on('click', function () {
         startDate.setDate(startDate.getDate() - 14);
-        loadTimeline(startDate, endDate, ['pushups', 'flies', 'games', 'chiaseeds']);
+        loadTimeline(startDate, endDate, ['pushups', 'flies', 'games', 'chiaseeds', 'misc']);
     });
 
   </script>

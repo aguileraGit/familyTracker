@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Misc Points</h1>
-  <div class="container">
+  <div class="container border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Misc Points</h1>
+    <hr></hr>
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <form method="POST">
@@ -23,7 +24,7 @@
             {{ form.reason.label(class="form-control-label") }}
             {{ form.reason(class="form-control") }}
           </div>
-          <button type="submit" class="btn btn-primary">Add Misc Point</button>
+          <button type="submit" class="btn btn-primary m-4">Add Misc Point</button>
         </form>
       </div>
     </div>

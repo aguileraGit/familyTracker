@@ -2,8 +2,9 @@
 
 {% block content %}
 
-<h1>Add new board game</h1>
-  <div class="container">
+  <div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Add new board game</h1>
+    <hr></hr>
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <form method="POST">
@@ -16,14 +17,15 @@
             {{ board_game_add_form.dateAdded.label(class="form-control-label") }}
             {{ board_game_add_form.dateAdded(class="form-control DateTimeField") }}
           </div>
-          <button type="submit" class="btn btn-primary">Add Game</button>
+          <button type="submit" class="btn btn-primary m-4">Add Game</button>
         </form>
       </div>
     </div>
   </div>
-  <h1>Create a new user</h1>
   
-  <div class="container">
+  <div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Create a new user</h1>
+    <hr></hr>
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <form method="POST">
@@ -68,7 +70,7 @@
             {{ form.pictureFilename.label(class="form-control-label") }}
             {{ form.pictureFilename(class="form-control") }}
           </div>
-          <button type="submit" class="btn btn-primary">Create User</button>
+          <button type="submit" class="btn btn-primary m-4">Create User</button>
         </form>
       </div>
     </div>

@@ -166,6 +166,18 @@ def load_data():
                 'points': entry.points
             })
 
+    if 'misc' in dBs:
+        print('misc')
+        data = misc_points.objects(dow__gte=start_date, dow__lte=end_date).order_by('-dow')
+
+        for entry in data:
+            response.append({
+                'dateAdded': entry.dow,
+                'winner': entry.winner,
+                'type': 'Miscellaneous',
+                'points': entry.points
+            })
+
     sorted_response = sorted(response, key=lambda x: x['dateAdded'], reverse=True)
 
     print(response)

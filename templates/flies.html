@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Fly Kills</h1>
-  <div class="container">
+  <div class="container border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Fly Kills</h1>
+    <hr></hr>
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <form method="POST">
@@ -19,36 +20,37 @@
             {{ form.points.label(class="form-control-label") }}
             {{ form.points(class="form-control") }}
           </div>
-          <button type="submit" class="btn btn-primary">Confirm Kill</button>
+          <button type="submit" class="btn btn-primary m-4">Confirm Kill</button>
         </form>
       </div>
     </div>
   </div>
 
-  <div class="container mt-5">
-    <h1>Flys Timeline</h1>
+  <div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Flies Timeline</h1>
+    <hr></hr>
     <div id="timeline" class="mt-4"></div>
-    <button id="loadMoreBtn" class="btn btn-primary mt-4">Load More</button>
+    <div class="text-center">
+      <button id="loadMoreBtn" class="btn btn-primary m-4">Load More</button>
+    </div>
   </div>
 
 {% endblock %}
 
 {% block javascriptCode %}
-  <!-- This works. Look at base.html for all the other JS changes -->
 
   <script>
     var startDate = new Date();
     var endDate = new Date();
     startDate.setDate(endDate.getDate() - 14);
 
-    loadTimeline(startDate, endDate, ['flys']);
+    loadTimeline(startDate, endDate, ['flies']);
 
     $('#loadMoreBtn').on('click', function () {
         startDate.setDate(startDate.getDate() - 14);
-        loadTimeline(startDate, endDate, ['flys']);
+        loadTimeline(startDate, endDate, ['flies']);
     });
 
   </script>
 
-  <script>console.log("Flys");</script>
-  {% endblock javascriptCode %}
+{% endblock javascriptCode %}

@@ -32,7 +32,7 @@ class pointsAnalytics:
         leaderBoardDF.sort_values(by=['Points'], inplace=True, ascending=False)
         leaderBoardDF = leaderBoardDF.loc[:, ['Names','Points']]
         
-        leaderBoardHTML = leaderBoardDF.to_html(classes=["table table-bordered table-striped table-hover"],
+        leaderBoardHTML = leaderBoardDF.to_html(classes=["table table-bordered table-striped table-hover bg-white"],
                                                 index_names=False, justify='left', index=False)
 
         return leaderBoardHTML
