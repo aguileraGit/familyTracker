@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5 border border-dark bg-light rounded-top pb-2">
+    <h1 class="pt-2">General Information</h1>
+    <hr></hr>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">Amount</div>
+                <div class="card-body">
+                    <div class="card-text">
+                        18-20grams for a single serving. 44-46grams for 2 servings.
+                    </div>
+                    <p class="card-text">
+                        Need Chart
+                    </p>
+                </div>
+                <div class="card-footer text-muted"></div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">Brew Temperature</div>
+                <div class="card-body">
+                    <div class="card-text">
+                        202-204F
+                    </div>
+                    <p class="card-text">
+                        <div id='brewTempChart' class='chart'></div> 
+                    </p>
+                </div>
+                <div class="card-footer text-muted"></div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">Ratio</div>
+                <div class="card-body">
+                    <div class="card-text">
+                        16grams of water for every 1gram of coffee. 16:1
+                    </div>
+                    <p class="card-text">
+                        <div id='ratioChart' class='chart'></div> 
+                    </p>
+                </div>
+                <div class="card-footer text-muted"></div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">Grinder Adjustments</div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+                <div class="card-footer text-muted">2 days ago</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-5 border border-dark bg-light rounded-top pb-2">
+    <h1 class="pt-2">Chemex</h1>
+    <hr></hr>
+    <div class="row m-2">
+        Great for multiple servings. Three ply towards the spout.
+    </div>
+    <div id='chemexGrindChart' class='chart'></div>
+</div>
+
+<div class="container mt-5 border border-dark bg-light rounded-top pb-2">
+    <h1 class="pt-2">Pour Over</h1>
+    <hr></hr>
+    <div class="row m-2">
+        Great for multiple servings. Makes a 'cleaner' cup. Need to think about Grind.
+    </div>
+    Need Chart
+</div>
+
+<div class="container mt-5 border border-dark bg-light rounded-top pb-2">
+    <h1 class="pt-2">V60</h1>
+    <hr></hr>
+    <div class="row m-2">
+        Single serving. Much cleaner cup. Grind size probably half.<p>
+        Replace half the water with ice for a cold brew. Add flavorings and sweetner.
+    </div>
+    Need Chart
+</div>
+
+<div class="container mt-5 border border-dark bg-light rounded-top pb-2">
+    <h1 class="pt-2">Moka Pot</h1>
+    <hr></hr>
+    <div class="row m-2">
+        Need grind size. Does not follow ratio. Fill to mark on bottom vessel.<p>
+        Set stove eye to just over medium. Use 3D printed wrench to torque down.
+    </div>
+    Need Chart
+</div>
+
+<div class="container mt-5 border border-dark bg-light rounded-top pb-2">
+    <h1 class="pt-2">Cold Brew</h1>
+    <hr></hr>
+    <div class="row m-2">
+        Use Hakko. Need grind size and weight. Fill with water to top. Let size 24 hours.
+    </div>
+    Need Chart
+</div>
+
+{% endblock %}
+
+{% block javascriptCode %}
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+<script type='text/javascript'>
+
+    var chemexGrind = {{figsDivs['grindChemexFig'] | safe}};
+    Plotly.plot('chemexGrindChart', chemexGrind, {});
+
+    var brewTemp = {{figsDivs['brewTemp'] | safe}};
+    Plotly.plot('brewTempChart', brewTemp, {});
+
+    var ratio = {{figsDivs['ratio'] | safe}};
+    Plotly.plot('ratioChart', ratio, {});
+
+</script>
+
+  {% endblock javascriptCode %}

@@ -199,3 +199,29 @@ class pointsAnalytics:
         )
 
         return fig
+
+
+    def grindGauge(self, min=0, max=100, value=50, title='Grind Size', mode='gauge+number'):
+        #https://plotly.com/python/gauge-charts/
+        fig = go.Figure()
+        
+        fig.add_indicator(
+            domain = {'x': [0, 1], 'y': [0, 1]},
+            value = value,
+            mode = mode,
+            title = {'text': title},
+            
+            gauge = {'axis': {'range': [min, max]},
+                    'steps' : [
+                        {'range': [min, value], 'color': "lightgray"},
+                        {'range': [value, max], 'color': "lightgray"}
+                        ],
+
+                    'threshold': {
+                        'line': { 'color': "black", 'width': 4 },
+                        'thickness': 0.75,
+                        'value': value}
+                    }
+        )
+        
+        return fig

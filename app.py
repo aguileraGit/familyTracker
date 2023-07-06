@@ -310,6 +310,28 @@ def editFamilyMember():
             return redirect('viewAllFamilyMembers')
         
 
+@app.route('/coffee', methods=['GET', 'POST'])
+def coffee(): 
+    #Create and pass dictonary to hold and pass all figure
+    figsDivs = {}
+
+    brewTemp = analytics.grindGauge(min=202, max=204, value=204, title='Temperature')
+    brewTemp = json.dumps(brewTemp['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    figsDivs['brewTemp'] = brewTemp
+
+    ratio = analytics.grindGauge(min=0, max=32, value=16, title='Ratio', mode='number')
+    ratio = json.dumps(ratio['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    figsDivs['ratio'] = ratio
+
+    #Chemex Grind - Create div, format JSON, and add to figDivs
+    grindChemexFig = analytics.grindGauge(min=18, max=24, value=20)
+    grindChemexFig = json.dumps(grindChemexFig['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    figsDivs['grindChemexFig'] = grindChemexFig
+
+
+
+    return render_template('coffee.html', figsDivs = figsDivs)
+
 
 @app.context_processor
 def pointsFlysToHTML():
