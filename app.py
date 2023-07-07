@@ -315,6 +315,7 @@ def coffee():
     #Create and pass dictonary to hold and pass all figure
     figsDivs = {}
 
+    #Create div, format JSON, and add to figDivs
     brewTemp = analytics.grindGauge(min=202, max=204, value=204, title='Temperature')
     brewTemp = json.dumps(brewTemp['data'], cls=plotly.utils.PlotlyJSONEncoder)
     figsDivs['brewTemp'] = brewTemp
@@ -323,12 +324,30 @@ def coffee():
     ratio = json.dumps(ratio['data'], cls=plotly.utils.PlotlyJSONEncoder)
     figsDivs['ratio'] = ratio
 
-    #Chemex Grind - Create div, format JSON, and add to figDivs
-    grindChemexFig = analytics.grindGauge(min=18, max=24, value=20)
+    #Chemex Grind
+    grindChemexFig = analytics.grindGauge(min=20, max=22, value=20)
     grindChemexFig = json.dumps(grindChemexFig['data'], cls=plotly.utils.PlotlyJSONEncoder)
     figsDivs['grindChemexFig'] = grindChemexFig
 
+    #Pour Over Grind
+    pourOverGrind = analytics.grindGauge(min=12, max=16, value=18)
+    pourOverGrind = json.dumps(pourOverGrind['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    figsDivs['pourOverGrind'] = pourOverGrind
 
+    #V60
+    v60Grind = analytics.grindGauge(min=8, max=12, value=10)
+    v60Grind = json.dumps(v60Grind['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    figsDivs['v60Grind'] = v60Grind
+
+    #Moka Pot
+    mokaPotGrind = analytics.grindGauge(min=5, max=7, value=6)
+    mokaPotGrind = json.dumps(mokaPotGrind['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    figsDivs['mokaPotGrind'] = mokaPotGrind
+
+    #Cold Brew Grind
+    coldBrewGrind = analytics.grindGauge(min=22, max=26, value=24)
+    coldBrewGrind = json.dumps(coldBrewGrind['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    figsDivs['coldBrewGrind'] = coldBrewGrind
 
     return render_template('coffee.html', figsDivs = figsDivs)
 
