@@ -225,3 +225,5 @@ class pointsAnalytics:
         )
         
         return fig
+    
+    

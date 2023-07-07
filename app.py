@@ -326,6 +326,7 @@ def coffee():
 
     #Chemex Grind
     grindChemexFig = analytics.grindGauge(min=20, max=22, value=20)
+    #Unsure why. Must get only the figure data and encode as JSON
     grindChemexFig = json.dumps(grindChemexFig['data'], cls=plotly.utils.PlotlyJSONEncoder)
     figsDivs['grindChemexFig'] = grindChemexFig
 

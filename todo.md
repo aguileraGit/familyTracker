@@ -1,9 +1,12 @@
 # More to do
 
+- [ ] Add board game to board game DB!
 - [ ] Update profile to be nicer (add photos)
 - [ ] Look at summary section below
  - [ ] Look at web alerts to send notifications (report is ready or reminder to do push ups)
 - [ ] Add users to make public (requires server)
+- Add point per birthday (script that runs daily)
+- Calendar(s)
 
 
 https://pythonbasics.org/flask-login/
@@ -12,17 +15,21 @@ https://plotly.com/python/templates/
 https://blog.heptanalytics.com/flask-plotly-dashboard/
 
 
-### Monthly Summary
-Generic Fn that filters data by date and returns a DF. Each item below can pull from combinedDataDF or specificDF. 
- - Table by Fly/Board Games/Chia Seeds
- - Total points by winner
- - Games played
- - Flys killed
- - Most points for the week/month
- - Push ups 
+### BiWeekly Summary:
+Clicking on (more) could lead to analytics page
+ - Who scored the most points this week?
+ - How many flies were killed?
+ - Did Diego do any push ups?
+ - What games were played?
 
-
-# Coffee
+### Analytics Page
+By User:
+ - Points per DB Table (pie graph): Fly/Board Games/Chia Seeds/Misc
+ - Misc reasons for points
+ 
+By Family:
+ -  Number of games played
+ - Total number of flies killed
 
 
 
