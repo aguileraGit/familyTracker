@@ -201,6 +201,7 @@ class pointsAnalytics:
         return fig
 
 
+    #This creates all the gauge/indicator plots on the coffee page. 
     def grindGauge(self, min=0, max=100, value=50, title='Grind Size', mode='gauge+number'):
         #https://plotly.com/python/gauge-charts/
         fig = go.Figure()
@@ -223,6 +224,26 @@ class pointsAnalytics:
                         'value': value}
                     }
         )
+        
+        return fig
+    
+    #Looks through all DBs with points and returns a dict of DB and total points per person.
+    def getPieData(self, winner):
+        results = {}
+        points = 0
+        for collection in self.pointCollectionList:
+            for doc in collection.objects(winner=winner):
+                points = int(doc.points) + points
+                results[collection._get_collection_name()] = points
+
+        return results
+
+
+    def createPiePlot(self, labelList, valueList):
+        labels = labelList
+        values = valueList
+
+        fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
         
         return fig
     

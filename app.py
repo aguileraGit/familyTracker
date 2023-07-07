@@ -64,7 +64,8 @@ def boardgames():
         print('Add new board game winner')
         newWinner = board_games_winner(dow = newWinnerGameForm.dow.data.isoformat(),
                                        winner = newWinnerGameForm.winner.data,
-                                       points = newWinnerGameForm.points.data)
+                                       points = newWinnerGameForm.points.data,
+                                       game = newWinnerGameForm.game.data)
         newWinner.save()
         flash('New Winner Added!', 'success')
         return redirect('/')
@@ -130,7 +131,6 @@ def load_data():
             })
 
     if 'flies' in dBs:
-        print('flies')
         data = fly_kills.objects(dow__gte=start_date, dow__lte=end_date).order_by('-dow')
 
         for entry in data:
@@ -143,7 +143,6 @@ def load_data():
             
 
     if 'games' in dBs:
-        print('games')
         data = board_games_winner.objects(dow__gte=start_date, dow__lte=end_date).order_by('-dow')
 
         for entry in data:
@@ -155,7 +154,6 @@ def load_data():
             })
 
     if 'chiaseeds' in dBs:
-        print('chiaseeds')
         data = chia_seeds.objects(dow__gte=start_date, dow__lte=end_date).order_by('-dow')
 
         for entry in data:
@@ -167,7 +165,6 @@ def load_data():
             })
 
     if 'misc' in dBs:
-        print('misc')
         data = misc_points.objects(dow__gte=start_date, dow__lte=end_date).order_by('-dow')
 
         for entry in data:
@@ -180,7 +177,7 @@ def load_data():
 
     sorted_response = sorted(response, key=lambda x: x['dateAdded'], reverse=True)
 
-    print(response)
+    #print(response)
 
     #Need to figure out how to order 
     return jsonify(sorted_response)
@@ -351,6 +348,37 @@ def coffee():
     figsDivs['coldBrewGrind'] = coldBrewGrind
 
     return render_template('coffee.html', figsDivs = figsDivs)
+
+@app.route('/summary', methods=['GET', 'POST'])
+def summary():
+    #Get list of first names
+    names = family_members.objects().distinct('firstName')
+    
+    #Default for initial page
+    selectedName = names[0]
+
+    figDivs = {}
+
+    pieData = analytics.getPieData( selectedName )
+    pieFig = analytics.createPiePlot(list(pieData.keys()), list(pieData.values()))
+    pieFig = json.dumps(pieFig['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    figDivs['pieData'] = pieFig
+
+    print(figDivs)
+
+    if request.method == 'POST':
+        selectedName = request.form['name']
+
+        #figDivs = {}
+
+        pieData = analytics.getPieData(selectedName)
+        pieFig = analytics.createPiePlot(list(pieData.keys()), list(pieData.values()))
+        pieFig = json.dumps(pieFig['data'], cls=plotly.utils.PlotlyJSONEncoder)
+        figDivs['pieData'] = pieFig
+
+        return render_template('summary.html', names=names, figsDivs = figDivs, selectedName = selectedName)
+    
+    return render_template('summary.html', names=names, figsDivs = figDivs, selectedName = selectedName)
 
 
 @app.context_processor

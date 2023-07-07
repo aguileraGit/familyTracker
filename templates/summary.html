@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">Select a Name</h1>
+    <hr></hr>
+    <form method="POST">
+        {{ names.csrf_token }}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <select class="form-select" id="name" name="name">
+                {% for name in names %}
+                    <option value="{{ name }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary m-4">Submit</button>
+    </form>
+</div>
+
+<div class="container mt-5 border border-dark bg-light rounded-top">
+    <h1 class="pt-2">{{ selectedName }}</h1>
+    <hr></hr>
+    <div id='pieDataChart' class='chart m-4'></div>
+</div>
+
+  {% endblock %}
+
+  {% block javascriptCode %}
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <script type='text/javascript'>
+
+        var pieData = {{figsDivs['pieData'] | safe}};
+        Plotly.plot('pieDataChart', pieData, {});
+
+    </script>
+
+  {% endblock javascriptCode %}
