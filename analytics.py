@@ -243,7 +243,9 @@ class pointsAnalytics:
         labels = labelList
         values = valueList
 
-        fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+        fig = go.Figure(data=[go.Pie(labels=labels, values=values, 
+                                     hole=.3, textinfo='label+percent',
+                                     insidetextorientation='radial')])
         
         return fig
     
