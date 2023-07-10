@@ -244,9 +244,42 @@ class pointsAnalytics:
         values = valueList
 
         fig = go.Figure(data=[go.Pie(labels=labels, values=values, 
-                                     hole=.3, textinfo='label+percent',
+                                     hole=.3, textinfo='label+percent+value',
                                      insidetextorientation='radial')])
         
+        fig.update_layout(showlegend=False)
+
         return fig
     
-    
+    def generate_sunburst_chart(self, name):
+        labels = []
+        parents = []
+        values = []
+
+        # Get points from the misc_points collection
+        misc_points_data = misc_points.objects(winner=name)
+        for point in misc_points_data:
+            labels.append(point.reason)
+            parents.append("Misc Points")
+            values.append(int(point.points))
+
+        # Get points from the board_games collection
+        board_games_points_data = board_games_winner.objects(winner=name)
+        for point in board_games_points_data:
+            labels.append(point.game)
+            parents.append("Board Games")
+            values.append(int(point.points))
+
+        #print(labels, parents, values)
+
+        fig = go.Figure(go.Sunburst(
+            labels=labels,
+            parents=parents,
+            values=values
+        ))
+
+
+
+        print(fig)
+
+        return fig

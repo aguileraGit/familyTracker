@@ -361,24 +361,29 @@ def summary():
 
     pieData = analytics.getPieData( selectedName )
     pieFig = analytics.createPiePlot(list(pieData.keys()), list(pieData.values()))
-    pieFig = json.dumps(pieFig['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    pieFig = json.dumps(pieFig, cls=plotly.utils.PlotlyJSONEncoder)
     figDivs['pieData'] = pieFig
 
-    print(figDivs)
+    #Sunburt plot does not display. Unsure why.
+    #fig = analytics.generate_sunburst_chart(selectedName)
+    #figDivs['sunBurst'] = json.dumps(fig['data'], cls=plotly.utils.PlotlyJSONEncoder)
+    #figDivs['sunBurst'] = fig
 
     if request.method == 'POST':
         selectedName = request.form['name']
 
-        #figDivs = {}
-
         pieData = analytics.getPieData(selectedName)
         pieFig = analytics.createPiePlot(list(pieData.keys()), list(pieData.values()))
-        pieFig = json.dumps(pieFig['data'], cls=plotly.utils.PlotlyJSONEncoder)
+        pieFig = json.dumps(pieFig, cls=plotly.utils.PlotlyJSONEncoder)
         figDivs['pieData'] = pieFig
 
-        return render_template('summary.html', names=names, figsDivs = figDivs, selectedName = selectedName)
+        #fig = analytics.generate_sunburst_chart(selectedName)
+        #figDivs['sunBurst'] = json.dumps(fig['data'], cls=plotly.utils.PlotlyJSONEncoder)
+        #figDivs['sunBurst'] = fig
+
+        return render_template('summary.html', names=names, figDivs = figDivs, selectedName = selectedName)
     
-    return render_template('summary.html', names=names, figsDivs = figDivs, selectedName = selectedName)
+    return render_template('summary.html', names=names, figDivs = figDivs, selectedName = selectedName)
 
 
 @app.context_processor
