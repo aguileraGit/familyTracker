@@ -235,14 +235,12 @@ class pointsAnalytics:
 
         for collection in self.pointCollectionList:
             for doc in collection.objects(winner=winner):
-                print('New')
-                print(doc.points)
-                results['totalPoints'] = int(doc.points) + results['totalPoints']
-                results[collection._get_collection_name()] = int(doc.points)
+                if collection._get_collection_name() not in results.keys():
+                    results[collection._get_collection_name()] = int(doc.points)
+                else:
+                    results[collection._get_collection_name()] = int(doc.points) + results[collection._get_collection_name()]
 
-        results['totalPoints'] = (results['totalPoints'])
-
-        print(results)
+        results['totalPoints'] = sum(results.values())
 
         return results
 
