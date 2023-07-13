@@ -360,6 +360,11 @@ def summary():
     figDivs = {}
 
     pieData = analytics.getPieData( selectedName )
+
+    #Add total points to Fig and remove to make it easier to pass data to createPiePlot
+    figDivs['totalPoints'] = pieData['totalPoints']
+    del pieData['totalPoints']
+
     pieFig = analytics.createPiePlot(list(pieData.keys()), list(pieData.values()))
     pieFig = json.dumps(pieFig, cls=plotly.utils.PlotlyJSONEncoder)
     figDivs['pieData'] = pieFig
@@ -373,6 +378,11 @@ def summary():
         selectedName = request.form['name']
 
         pieData = analytics.getPieData(selectedName)
+
+        #Add total points to Fig and remove to make it easier to pass data to createPiePlot
+        figDivs['totalPoints'] = pieData['totalPoints']
+        del pieData['totalPoints']
+
         pieFig = analytics.createPiePlot(list(pieData.keys()), list(pieData.values()))
         pieFig = json.dumps(pieFig, cls=plotly.utils.PlotlyJSONEncoder)
         figDivs['pieData'] = pieFig

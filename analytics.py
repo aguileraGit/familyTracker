@@ -227,14 +227,22 @@ class pointsAnalytics:
         
         return fig
     
-    #Looks through all DBs with points and returns a dict of DB and total points per person.
+    #Looks through all DBs with points and returns a dict of DB and total points 
+    # for each table per person. Result can also include other info.
     def getPieData(self, winner):
         results = {}
-        points = 0
+        results['totalPoints'] = 0
+
         for collection in self.pointCollectionList:
             for doc in collection.objects(winner=winner):
-                points = int(doc.points) + points
-                results[collection._get_collection_name()] = points
+                print('New')
+                print(doc.points)
+                results['totalPoints'] = int(doc.points) + results['totalPoints']
+                results[collection._get_collection_name()] = int(doc.points)
+
+        results['totalPoints'] = (results['totalPoints'])
+
+        print(results)
 
         return results
 
